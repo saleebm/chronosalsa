@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import * as querystring from "querystring"
 import { generateRandomString } from "@/lib/utils/generate-random-string"
-import { getCookieHeader } from "@/lib/utils/cookie-header"
+import { getCookieValue } from "@/lib/utils/cookie-header"
 import { Headers } from "next/dist/compiled/@edge-runtime/primitives"
 
 // Authorize Spotify
@@ -17,11 +17,12 @@ export async function GET(request: Request, response: NextResponse) {
   }
 
   const state = generateRandomString(16)
-  const setCookieHeader = getCookieHeader(stateKey, state, {
+  const setCookieHeader = getCookieValue(stateKey, state, {
     maxAge: 300000,
     httpOnly: true,
     secure: process.env.NODE_ENV !== "development",
-    path: "/"
+    path: "/",
+    sameSite: 'lax'
   })
 
   const queryParams = querystring.stringify({
@@ -32,7 +33,7 @@ export async function GET(request: Request, response: NextResponse) {
     scope: scope
   })
 
-  const headers = new Headers(request.headers)
+  const headers = new Headers()
   headers.set('Set-Cookie', setCookieHeader)
 
   return NextResponse.redirect(`https://accounts.spotify.com/authorize?${queryParams}`, {

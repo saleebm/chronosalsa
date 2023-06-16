@@ -2,7 +2,9 @@
 import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
 import * as querystring from "querystring"
-import { getCookieHeader } from "@/lib/utils/cookie-header"
+import { getCookieValue } from "@/lib/utils/cookie-header"
+import { Headers } from "next/dist/compiled/@edge-runtime/primitives"
+import authConfig from "@/config/auth.json"
 
 export async function GET(request: Request) {
   // has middleware to validate silly secret
@@ -39,13 +41,28 @@ export async function GET(request: Request) {
   })}`
 
   const auth = await fetch(url, {
-    method: 'POST',
+    method: "POST",
     headers: {
       Authorization: `Basic ${token}`,
-      'content-type': 'application/x-www-form-urlencoded'
+      "content-type": "application/x-www-form-urlencoded"
     },
-    redirect: 'follow'
+    redirect: "follow"
   }).then(result => result.json())
 
-  return NextResponse.json({ success: true })
+  // todo is this even a good idea?
+  const authCookie = getCookieValue(authConfig.spotify.tokenName, auth, {
+    maxAge: 300000,
+    httpOnly: true,
+    secure: process.env.NODE_ENV !== "development",
+    path: "/",
+    sameSite: "lax"
+  })
+
+  const headers = new Headers()
+  headers.set("Set-Cookie", authCookie)
+
+  const redirectUrl = `${host}/login?${new URLSearchParams({ sillySecret: process.env.SILLY_SECRET })}`
+  return NextResponse.redirect(redirectUrl, {
+    headers
+  })
 }

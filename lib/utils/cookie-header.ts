@@ -1,7 +1,7 @@
 import { NextApiResponse } from "next"
 import { CookieSerializeOptions, serialize } from "cookie"
 
-export const getCookieHeader = (
+export const getCookieValue = (
   name: string,
   value: unknown,
   options: CookieSerializeOptions = {}

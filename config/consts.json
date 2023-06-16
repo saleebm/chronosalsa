@@ -1,6 +1,0 @@
-{
-  "spotify": {
-    "accessToken": "spotify-access-token",
-    "refreshToken": "spotify-refresh-token"
-  }
-}

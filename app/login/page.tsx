@@ -1,4 +1,5 @@
 import styles from "../page.module.css"
+import { LoginForm } from "@/components/login-form"
 
 export const metadata = {
   //todo better meta with images, graph
@@ -10,8 +11,7 @@ export const metadata = {
 export default function Login() {
   return (
     <main className={styles.main}>
-        <h1>Login</h1>
-        <a href={'/api/authorize-spotify'}>Authorize Spotify</a>
+      <LoginForm />
     </main>
   )
 }
