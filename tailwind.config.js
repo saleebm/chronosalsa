@@ -13,10 +13,7 @@ let h1 = h2 * font_scale
 module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx}",
-    "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
-    "./lib/**/*.{js,ts,jsx,tsx}",
-    "./content/**/*.{md,mdx}",
   ],
   theme: {
     screens: {

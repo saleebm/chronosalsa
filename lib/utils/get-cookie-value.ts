@@ -1,6 +1,6 @@
-import { NextApiResponse } from "next"
 import { CookieSerializeOptions, serialize } from "cookie"
 
+// get a string to set as a cookie
 export const getCookieValue = (
   name: string,
   value: unknown,

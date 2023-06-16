@@ -1,6 +1,10 @@
 import type { NextRequest } from "next/server"
 import { NextResponse } from "next/server"
-import { generateRandomString } from "@/lib/utils/generate-random-string"
+import { getAuth } from "@/lib/auth/get-auth"
+import { Headers } from "next/dist/compiled/@edge-runtime/primitives"
+import authConfig from '@/config/auth.json'
+import { getCookieValue } from "@/lib/utils/get-cookie-value"
+import { serverCookieOpts } from "@/lib/utils/server-cookie-opts"
 
 // dev route
 const requireSillySecret = (request: NextRequest) => {
@@ -33,7 +37,7 @@ const requireSillySecret = (request: NextRequest) => {
 // isPath Does path fragment start with the provided path
 const isPath = (path: string, request: NextRequest) => request.nextUrl.pathname.startsWith(path)
 
-export function middleware( request: NextRequest) {
+export async function middleware( request: NextRequest) {
   // require a silly secret
   if (isPath("/login", request)) {
     const result = requireSillySecret(request)
@@ -43,5 +47,26 @@ export function middleware( request: NextRequest) {
   if (isPath("/api/v1/authorize-spotify", request)) {
     const result = requireSillySecret(request)
     if (result) return result
+  }
+
+  if (isPath("/seed", request)) {
+    // if authenticated, get refresh token
+    const auth = await getAuth(request)
+    console.log(auth)
+    if (auth.authenticated) {
+      const response = NextResponse.next()
+      // set refresh token
+      response.cookies.set({
+        name: authConfig.spotify.tokenName,
+        value: JSON.stringify(auth),
+        ...serverCookieOpts
+      })
+      return response
+    }
+    // unauthenticated
+    return new NextResponse(
+      "<h1>Unauthorized</h1>",
+      { status: 401, headers: { "content-type": "text/html" } }
+    )
   }
 }

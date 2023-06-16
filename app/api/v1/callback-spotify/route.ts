@@ -2,9 +2,10 @@
 import { cookies } from "next/headers"
 import { NextResponse } from "next/server"
 import * as querystring from "querystring"
-import { getCookieValue } from "@/lib/utils/cookie-header"
+import { getCookieValue } from "@/lib/utils/get-cookie-value"
 import { Headers } from "next/dist/compiled/@edge-runtime/primitives"
 import authConfig from "@/config/auth.json"
+import { serverCookieOpts } from "@/lib/utils/server-cookie-opts"
 
 export async function GET(request: Request) {
   // has middleware to validate silly secret
@@ -50,18 +51,12 @@ export async function GET(request: Request) {
   }).then(result => result.json())
 
   // todo is this even a good idea?
-  const authCookie = getCookieValue(authConfig.spotify.tokenName, auth, {
-    maxAge: 300000,
-    httpOnly: true,
-    secure: process.env.NODE_ENV !== "development",
-    path: "/",
-    sameSite: "lax"
-  })
+  const authCookie = getCookieValue(authConfig.spotify.tokenName, auth, serverCookieOpts)
 
   const headers = new Headers()
   headers.set("Set-Cookie", authCookie)
 
-  const redirectUrl = `${host}/login?${new URLSearchParams({ sillySecret: process.env.SILLY_SECRET })}`
+  const redirectUrl = `${host}/seed`
   return NextResponse.redirect(redirectUrl, {
     headers
   })

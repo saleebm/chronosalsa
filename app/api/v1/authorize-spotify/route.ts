@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server"
 import * as querystring from "querystring"
 import { generateRandomString } from "@/lib/utils/generate-random-string"
-import { getCookieValue } from "@/lib/utils/cookie-header"
+import { getCookieValue } from "@/lib/utils/get-cookie-value"
 import { Headers } from "next/dist/compiled/@edge-runtime/primitives"
+import { serverCookieOpts } from "@/lib/utils/server-cookie-opts"
 
 // Authorize Spotify
 export async function GET(request: Request, response: NextResponse) {
@@ -17,13 +18,7 @@ export async function GET(request: Request, response: NextResponse) {
   }
 
   const state = generateRandomString(16)
-  const setCookieHeader = getCookieValue(stateKey, state, {
-    maxAge: 300000,
-    httpOnly: true,
-    secure: process.env.NODE_ENV !== "development",
-    path: "/",
-    sameSite: 'lax'
-  })
+  const setCookieHeader = getCookieValue(stateKey, state, serverCookieOpts)
 
   const queryParams = querystring.stringify({
     client_id: clientID,
