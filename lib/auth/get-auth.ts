@@ -29,8 +29,8 @@ export async function getAuth(request: NextRequest): Promise<AuthResult> {
   if (typeof cookieVal === "object" && cookieVal != null && "refresh_token" in cookieVal) {
     const refreshAuth = await authenticateWithRefresh(cookieVal.refresh_token)
     return {
-      auth: refreshAuth,
-      authenticated: true
+      auth: { ...refreshAuth, refresh_token: cookieVal.refresh_token },
+      authenticated: true,
     }
   }
 

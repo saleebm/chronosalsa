@@ -56,7 +56,7 @@ export async function GET(request: Request) {
   const headers = new Headers()
   headers.set("Set-Cookie", authCookie)
 
-  const redirectUrl = `${host}/seed`
+  const redirectUrl = new URL("/seed", request.url)
   return NextResponse.redirect(redirectUrl, {
     headers
   })

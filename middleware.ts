@@ -38,27 +38,38 @@ const requireSillySecret = (request: NextRequest) => {
 const isPath = (path: string, request: NextRequest) => request.nextUrl.pathname.startsWith(path)
 
 export async function middleware( request: NextRequest) {
-  // require a silly secret
-  if (isPath("/login", request)) {
-    const result = requireSillySecret(request)
-    if (result) return result
-  }
   // authorize spotify
   if (isPath("/api/v1/authorize-spotify", request)) {
     const result = requireSillySecret(request)
     if (result) return result
   }
 
+  // login
+  if (isPath("/login", request)) {
+    const result = requireSillySecret(request)
+    if (result) return result
+    try {
+      const auth = await getAuth(request)
+      if (auth.authenticated) {
+        // authenticated already
+        return NextResponse.redirect(new URL("/seed", request.url))
+      }
+    } catch (e) {
+      console.error(e)
+      return NextResponse.redirect(new URL("/", request.url))
+    }
+  }
+
+  // seed
   if (isPath("/seed", request)) {
     // if authenticated, get refresh token
     const auth = await getAuth(request)
-    console.log(auth)
     if (auth.authenticated) {
       const response = NextResponse.next()
       // set refresh token
       response.cookies.set({
         name: authConfig.spotify.tokenName,
-        value: JSON.stringify(auth),
+        value: `j:${JSON.stringify(auth.auth)}`,
         ...serverCookieOpts
       })
       return response
