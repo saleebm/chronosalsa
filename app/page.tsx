@@ -7,10 +7,11 @@ export const metadata = {
 }
 
 export default async function Home() {
-
   return (
     <main className={styles.main}>
-
+      <h1>
+        Chronosalsa<span> 💃</span>
+      </h1>
     </main>
   )
 }

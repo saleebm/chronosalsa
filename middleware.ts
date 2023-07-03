@@ -1,9 +1,7 @@
 import type { NextRequest } from "next/server"
 import { NextResponse } from "next/server"
-import { getAuth } from "@/lib/auth/get-auth"
-import { Headers } from "next/dist/compiled/@edge-runtime/primitives"
-import authConfig from '@/config/auth.json'
-import { getCookieValue } from "@/lib/utils/get-cookie-value"
+import { getAuth } from "@/lib/auth/spotify/get-auth"
+import authConfig from "@/config/auth.json"
 import { serverCookieOpts } from "@/lib/utils/server-cookie-opts"
 
 // dev route
@@ -20,12 +18,13 @@ const requireSillySecret = (request: NextRequest) => {
   if (request.nextUrl.searchParams.has("sillySecret")) {
     const sillySecret = request.nextUrl.searchParams.get("sillySecret")
     if (process.env.SILLY_SECRET !== sillySecret) {
+      // guess game? todo rate limit
       console.error("got " + sillySecret)
       // return NextResponse
-      return new NextResponse(
-        "<h1>Unauthorized</h1>",
-        { status: 401, headers: { "content-type": "text/html" } }
-      )
+      return new NextResponse("<h1>Unauthorized</h1>", {
+        status: 401,
+        headers: { "content-type": "text/html" },
+      })
     }
   } else {
     // if somehow accessing without the silly frickin secret, redirect home
@@ -34,25 +33,26 @@ const requireSillySecret = (request: NextRequest) => {
   }
 }
 
-// isPath Does path fragment start with the provided path
-const isPath = (path: string, request: NextRequest) => request.nextUrl.pathname.startsWith(path)
+// doesPathStartWith Does path fragment start with the provided path
+const doesPathStartWith = (path: string, request: NextRequest) =>
+  request.nextUrl.pathname.startsWith(path)
 
-export async function middleware( request: NextRequest) {
+export async function middleware(request: NextRequest) {
   // authorize spotify
-  if (isPath("/api/v1/authorize-spotify", request)) {
+  if (doesPathStartWith("/api/v1/authorize-spotify", request)) {
     const result = requireSillySecret(request)
     if (result) return result
   }
 
   // login
-  if (isPath("/login", request)) {
+  if (doesPathStartWith("/admin/login", request)) {
     const result = requireSillySecret(request)
     if (result) return result
     try {
-      const auth = await getAuth(request)
+      const auth = await getAuth(request.cookies)
       if (auth.authenticated) {
         // authenticated already
-        return NextResponse.redirect(new URL("/seed", request.url))
+        return NextResponse.redirect(new URL("/admin/seed", request.url))
       }
     } catch (e) {
       console.error(e)
@@ -61,23 +61,23 @@ export async function middleware( request: NextRequest) {
   }
 
   // seed
-  if (isPath("/seed", request)) {
+  if (doesPathStartWith("/admin/seed", request)) {
     // if authenticated, get refresh token
-    const auth = await getAuth(request)
-    if (auth.authenticated) {
-      const response = NextResponse.next()
-      // set refresh token
-      response.cookies.set({
-        name: authConfig.spotify.tokenName,
-        value: `j:${JSON.stringify(auth.auth)}`,
-        ...serverCookieOpts
-      })
-      return response
+    try {
+      const auth = await getAuth(request.cookies)
+      if (auth.authenticated) {
+        const response = NextResponse.next()
+        // set refresh token
+        response.cookies.set({
+          name: authConfig.spotify.tokenName,
+          value: `j:${JSON.stringify(auth.auth)}`,
+          ...serverCookieOpts,
+        })
+        return response
+      }
+    } catch (e) {
+      console.error("unable to authenticate for seed page", e)
     }
-    // unauthenticated
-    return new NextResponse(
-      "<h1>Unauthorized</h1>",
-      { status: 401, headers: { "content-type": "text/html" } }
-    )
+    return NextResponse.redirect(new URL("/", request.url))
   }
 }

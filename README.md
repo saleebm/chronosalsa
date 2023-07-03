@@ -1,6 +1,12 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+[Inspiration](https://www.youtube.com/watch?v=qNhgl1tN5vU)
+
 ## Getting Started
+
+but first,
+
+1. `ssh-keygen -t ed25519 -o -a 500 -b 4096 -f ./.private`
 
 First, run the development server:
 

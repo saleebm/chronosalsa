@@ -1,11 +1,10 @@
-import styles from "../page.module.css"
-import { LoginForm } from "@/components/login-form"
+import styles from "@/app/page.module.css"
+import { LoginForm } from "@/components/login-form.tsx"
 
 export const metadata = {
   //todo better meta with images, graph
-  title: 'Login',
-  description:
-    "",
+  title: "Login",
+  description: "",
 }
 
 export default function Login() {

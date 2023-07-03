@@ -10,8 +10,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id          String   @id //spotify user id
+  displayName String
+  createdAt   DateTime @default(now())
+  modifiedAt  DateTime @updatedAt
+}
+
 model Song {
   id             String   @id() @default(cuid())
+  uniqueId       String   @unique // spotify id
+  number         Int // autoincremented, uniq to the song
+  genre          String
   name           String
   Artist         Artist[]
   artistUniqueId String
@@ -19,25 +29,31 @@ model Song {
   albumUniqueId  String?
   previewUrl     String // must have audio sample to play
   externalUrl    String?
+  createdAt      DateTime @default(now())
+  modifiedAt     DateTime @updatedAt
+
+  @@index([number, genre]) // 
 }
 
 model Album {
-  id           String  @id() @default(cuid())
-  uniqueId     String  @unique
+  id           String   @id() @default(cuid())
+  uniqueId     String   @unique // spotify id
   Song         Song[]
   name         String
   imageUrl     String?
   releaseYear  String // formatted to YYYY, must be present to create
   releaseMonth String? // mm
   releaseDay   String? //dd
-  blurHash     String? @db.VarChar(1000)
+  blurHash     String?  @db.VarChar(1000)
+  createdAt    DateTime @default(now())
+  modifiedAt   DateTime @updatedAt
 }
 
 model Artist {
-  id       String @id() @default(cuid())
-  uniqueId String @unique
-  Song     Song[]
-  name     String
+  id         String   @id() @default(cuid())
+  uniqueId   String   @unique // spotify id
+  Song       Song[]
+  name       String
+  createdAt  DateTime @default(now())
+  modifiedAt DateTime @updatedAt
 }
-
-// 071368

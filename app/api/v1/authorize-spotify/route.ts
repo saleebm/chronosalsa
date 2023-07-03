@@ -7,8 +7,10 @@ import { serverCookieOpts } from "@/lib/utils/server-cookie-opts"
 
 // Authorize Spotify
 export async function GET(request: Request, response: NextResponse) {
-  //todo modify this if making public
-  const scope = "playlist-read-private playlist-read-collaborative user-library-read user-read-private"
+  //todo modify this if making public, make it user choice to share
+  const scope =
+    "playlist-read-private playlist-read-collaborative user-library-read" +
+    " user-read-private user-library-read"
   const clientID = process.env.SPOTIFY_CLIENT_ID
   const host = process.env.NEXT_PUBLIC_HOST
   const stateKey = process.env.STATE_SECRET
@@ -25,13 +27,16 @@ export async function GET(request: Request, response: NextResponse) {
     response_type: "code",
     redirect_uri: `${host}/api/v1/callback-spotify`,
     state: state,
-    scope: scope
+    scope: scope,
   })
 
   const headers = new Headers()
-  headers.set('Set-Cookie', setCookieHeader)
+  headers.set("Set-Cookie", setCookieHeader)
 
-  return NextResponse.redirect(`https://accounts.spotify.com/authorize?${queryParams}`, {
-    headers
-  })
+  return NextResponse.redirect(
+    `https://accounts.spotify.com/authorize?${queryParams}`,
+    {
+      headers,
+    }
+  )
 }
