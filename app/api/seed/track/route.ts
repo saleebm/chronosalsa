@@ -6,6 +6,7 @@ import { insertSong } from "@/lib/prisma/insert-song"
 import prisma from "@/lib/prisma"
 
 export async function POST(request: Request, response: NextResponse) {
+  let error
   try {
     const authResult = await getAuth(cookies())
     if (!authResult?.authenticated)
@@ -13,7 +14,8 @@ export async function POST(request: Request, response: NextResponse) {
         status: 403,
       })
 
-    const { trackId, genre, force } = await request.json()
+    const { trackId, genre: genreRaw, force } = await request.json()
+    const genre = genreRaw.toLowerCase()
     const track = await getTrack(trackId)
 
     const currentNumber = await prisma.song.count({
@@ -27,14 +29,20 @@ export async function POST(request: Request, response: NextResponse) {
       return NextResponse.json({ success: false, error: track.error.message })
     } else {
       // seed
-      // await insertSong(track, currentNumber)
+      await insertSong({
+        track,
+        number: currentNumber + 1,
+        force,
+        genre,
+      })
       return NextResponse.json({
         success: true,
       })
     }
   } catch (e) {
     console.error("seed track failed", e)
+    error = e instanceof Error && "message" in e ? e.message : "unknown error"
   }
 
-  return NextResponse.json({ success: false })
+  return NextResponse.json({ success: false, error: error })
 }

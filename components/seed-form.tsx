@@ -57,7 +57,7 @@ export function SeedForm() {
       setResults([
         ...results,
         {
-          message: !res.success || "error" in res ? res.error : "true",
+          message: !res.success || "error" in res ? res.error : "success",
           type,
           id: values.playlistId || values.trackId,
           genre: values.genre,
@@ -71,7 +71,10 @@ export function SeedForm() {
   })
 
   return (
-    <form className={"flex min-w-full flex-col pb-10 pt-10"} onSubmit={onSubmit}>
+    <form
+      className={"flex min-w-full flex-col pb-10 pt-10"}
+      onSubmit={onSubmit}
+    >
       <label className={"mb-8"}>
         <p>Playlist ID</p>
         <input

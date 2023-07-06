@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma/index"
-import { blurhashFromURL } from "blurhash-from-url"
+import { blurhashFromURL } from "@/lib/blurhash-from-url.ts"
 
 // todo export insertSongAwaitable (create a promise for bulk insert?)
 
@@ -19,17 +19,17 @@ const createArtist = async (track: SpotifyApi.TrackObjectFull) => {
 
 const createAlbum = async (track: SpotifyApi.TrackObjectFull) => {
   // image url
-  const imageUrl =
+  const image =
     Array.isArray(track.album.images) && !!track.album.images[0]
       ? track.album.images.sort((a, b) =>
-          !!a.width && b.width && a.width > b.width ? 1 : -1
-        )[0].url
+          !!a.width && b.width && a.width > b.width ? -1 : 1
+        )[0]
       : null
   let blurredImageData = null
-  if (!!imageUrl) {
-    // todo test this data in a browser
-    blurredImageData = await blurhashFromURL(imageUrl, {
-      size: 16,
+  if (!!image) {
+    blurredImageData = await blurhashFromURL(image.url, {
+      width: 300,
+      height: 300,
     })
   }
   // release year
@@ -50,7 +50,7 @@ const createAlbum = async (track: SpotifyApi.TrackObjectFull) => {
   const albumData = {
     uniqueId: track.album.id,
     name: track.album.name,
-    imageUrl: imageUrl,
+    imageUrl: image?.url,
     releaseYear: `${releaseDate.getUTCFullYear()}`,
     releaseMonth: `${releaseDate.getUTCMonth() + 1}`,
     releaseDay: `${releaseDate.getUTCDate()}`,
@@ -65,7 +65,7 @@ const createAlbum = async (track: SpotifyApi.TrackObjectFull) => {
   })
 }
 
-export async function insertSong({
+async function insertSongAwaitable({
   track,
   number,
   genre,
@@ -86,7 +86,7 @@ export async function insertSong({
       uniqueId: track.album.id,
     },
   })
-  if (!album || (album && force)) {
+  if (!album || force) {
     album = await createAlbum(track)
   }
   let artists: ReadonlyArray<{ id: string }> = []
@@ -96,7 +96,7 @@ export async function insertSong({
         uniqueId: track.artists[0].id,
       },
     })
-    if (!artist) {
+    if (!artist || force) {
       artist = await createArtist(track)
       artists = [
         ...artists,
@@ -107,22 +107,42 @@ export async function insertSong({
     }
   }
 
-  return await prisma.song.create({
-    data: {
-      Album: {
-        connect: {
-          id: album.id,
-        },
+  const data = {
+    Album: {
+      connect: {
+        id: album.id,
       },
-      Artist: {
-        connect: [],
-      },
-      uniqueId: track.id,
-      number: number,
-      genre,
-      name: track.name,
-      previewUrl: track.preview_url,
-      externalUrl: track.external_urls.spotify,
     },
+    Artist: {
+      connect: [],
+    },
+    uniqueId: track.id,
+    number: number,
+    genre,
+    name: track.name,
+    previewUrl: track.preview_url,
+    externalUrl: track.external_urls.spotify,
+  }
+
+  return prisma.song.upsert({
+    where: {
+      uniqueId: track.id,
+    },
+    create: data,
+    update: data,
   })
+}
+
+export async function insertSong({
+  track,
+  number,
+  genre,
+  force = false,
+}: {
+  track: SpotifyApi.TrackObjectFull
+  number: number
+  genre: string
+  force?: boolean
+}) {
+  return await insertSongAwaitable({ track, number, genre, force })
 }

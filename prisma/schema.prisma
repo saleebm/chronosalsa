@@ -20,7 +20,7 @@ model User {
 model Song {
   id             String   @id() @default(cuid())
   uniqueId       String   @unique // spotify id
-  number         Int // autoincremented, uniq to the song and genre, starts at 0
+  number         Int // autoincremented, uniq to the song and genre, starts at 1
   genre          String
   name           String
   Artist         Artist[]
