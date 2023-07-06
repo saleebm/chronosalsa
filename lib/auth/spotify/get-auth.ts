@@ -26,7 +26,6 @@ export type AuthResult = Unauthenticated | Authenticated
 export async function getAuth(
   cookieStore: RequestCookies | ReadonlyRequestCookies
 ): Promise<AuthResult> {
-  // todo ensure user exists in db already
   const authCookie = cookieStore.get(authConfig.spotify.tokenName)
   const cookieVal = parseCookieValue<AuthToken>(authCookie?.value)
   if (
@@ -34,18 +33,21 @@ export async function getAuth(
     cookieVal != null &&
     "refresh_token" in cookieVal
   ) {
+    // get refresh first, so it does not expire
+    const refreshAuth = await authenticateWithRefresh(cookieVal.refresh_token)
+    const auth = { ...refreshAuth, refresh_token: cookieVal.refresh_token }
+    // verify authorization with db
     const authorized = await fetch(
       `${process.env.NEXT_PUBLIC_HOST}/api/v1/verify-authorization`,
       {
         mode: "same-origin",
         method: "POST",
-        body: JSON.stringify(cookieVal),
+        body: JSON.stringify(auth),
       }
     ).then((result) => result.json())
     if (authorized.success) {
-      const refreshAuth = await authenticateWithRefresh(cookieVal.refresh_token)
       return {
-        auth: { ...refreshAuth, refresh_token: cookieVal.refresh_token },
+        auth,
         authenticated: true,
       }
     }

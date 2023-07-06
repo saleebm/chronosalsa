@@ -8,13 +8,19 @@ export function SeedForm() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<{ playlistId: string; trackId: string }>()
+  } = useForm<{
+    playlistId: string
+    trackId: string
+    genre: string
+    force: boolean
+  }>()
   const [submitted, setSubmitted] = useState(false)
   const [results, setResults] = useState<
     Array<{
       message: string
       id: string
       type: string
+      genre: string
     }>
   >([])
 
@@ -22,12 +28,17 @@ export function SeedForm() {
     setSubmitted(true)
     try {
       let res, type
+      const defaultFormFields = {
+        genre: values.genre,
+        force: values.force,
+      }
       if (values.playlistId) {
         type = "playlist"
         res = await fetch("/api/seed/playlist", {
           method: "POST",
           body: JSON.stringify({
             playlistId: values.playlistId,
+            ...defaultFormFields,
           }),
         }).then((response) => response.json())
       } else if (values.trackId) {
@@ -36,6 +47,7 @@ export function SeedForm() {
           method: "POST",
           body: JSON.stringify({
             trackId: values.trackId,
+            ...defaultFormFields,
           }),
         }).then((response) => response.json())
       } else {
@@ -48,6 +60,7 @@ export function SeedForm() {
           message: !res.success || "error" in res ? res.error : "true",
           type,
           id: values.playlistId || values.trackId,
+          genre: values.genre,
         },
       ])
     } catch (e) {
@@ -58,7 +71,7 @@ export function SeedForm() {
   })
 
   return (
-    <form className={"flex min-w-full flex-col"} onSubmit={onSubmit}>
+    <form className={"flex min-w-full flex-col pb-10 pt-10"} onSubmit={onSubmit}>
       <label className={"mb-8"}>
         <p>Playlist ID</p>
         <input
@@ -75,6 +88,26 @@ export function SeedForm() {
           {...register("trackId")}
         />
       </label>
+      <label className={"mb-8"}>
+        <p>Genre</p>
+        <input
+          className={"form-input w-full"}
+          type='text'
+          required
+          {...register("genre", {
+            required: true,
+          })}
+        />
+      </label>
+      {/* a checkbox field for force */}
+      <label className={"mb-8"}>
+        <p>Force</p>
+        <input
+          className={"form-checkbox"}
+          type='checkbox'
+          {...register("force")}
+        />
+      </label>
       <button
         disabled={submitted}
         className={"btn btn-primary cursor-pointer"}
@@ -83,11 +116,12 @@ export function SeedForm() {
         Submit
       </button>
       <div className={"mt-10 w-full"}>
-        <table className='w-full max-w-md border border-gray-300 bg-white'>
+        <table className='w-full min-w-full max-w-md border border-gray-300 bg-white'>
           <thead>
             <tr>
               <th className='border-b px-4 py-2'>ID</th>
               <th className='border-b px-4 py-2'>Type</th>
+              <th className='border-b px-4 py-2'>Genre</th>
               <th className='border-b px-4 py-2'>Result</th>
             </tr>
           </thead>
@@ -96,6 +130,7 @@ export function SeedForm() {
               <tr key={index}>
                 <td className='border-b px-4 py-2'>{result.id}</td>
                 <td className='border-b px-4 py-2'>{result.type}</td>
+                <td className='border-b px-4 py-2'>{result.genre}</td>
                 <td className='border-b px-4 py-2'>
                   <span
                     className={

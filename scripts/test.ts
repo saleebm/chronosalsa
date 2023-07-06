@@ -4,7 +4,13 @@ import TrackObjectFull = SpotifyApi.TrackObjectFull
 
 async function test() {
   console.log("test")
-  const trackData = await insertSong(sixth_sense as TrackObjectFull)
+  const trackData = await insertSong({
+    track: sixth_sense as TrackObjectFull,
+    genre: "test",
+    number: 0,
+    force: true,
+  })
+  console.log(trackData)
 }
 
 test()
