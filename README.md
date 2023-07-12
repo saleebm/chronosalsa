@@ -4,10 +4,6 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-but first,
-
-1. `ssh-keygen -t ed25519 -o -a 500 -b 4096 -f ./.private`
-
 First, run the development server:
 
 ```bash

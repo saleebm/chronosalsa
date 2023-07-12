@@ -17,6 +17,7 @@ export default async function Seed() {
         style={{
           width: 500,
           display: "flex",
+          flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
         }}

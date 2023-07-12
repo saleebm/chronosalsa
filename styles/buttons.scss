@@ -3,7 +3,7 @@
 }
 
 .btn-primary {
-  @apply relative z-[1] rounded-[30px] border-transparent bg-primary text-white transition-all hover:shadow-[0_12px_24px_-6px_rgba(45,67,121,.1)];
+  @apply relative z-[1] rounded-[30px] border-transparent bg-primary text-white transition-all hover:shadow-[0_12px_24px_-6px_rgba(45,67,121,.1)] disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none;
 
   &:after {
     @apply absolute left-1/2 top-1/2 -z-[1] h-full w-full translate-x-[-50%]  translate-y-[-50%] rounded-[30px] bg-primary transition-all duration-300 ease-in-out content-[''];
@@ -19,13 +19,13 @@
 }
 
 .btn-outline-primary {
-  @apply relative rounded-[30px] border-0 bg-transparent text-text hover:border-transparent hover:text-primary;
+  @apply relative rounded-[30px] border-0 bg-transparent text-text hover:border-transparent hover:text-primary disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none;
 
   &:after {
     @apply absolute left-1/2 top-1/2 z-[0] h-full w-full translate-x-[-50%]  translate-y-[-50%] rounded-[30px] border border-primary bg-transparent transition-all duration-300 ease-in-out content-[''];
   }
 
-  &:hover::after {
+  &:hover::after, &:focus::after {
     @apply h-[110%] w-[110%];
   }
 }
