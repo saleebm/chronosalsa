@@ -8,16 +8,28 @@ const steps = 5
 // todo
 type TODO = any
 
+// todo no optimizations
 export function Game() {
+  // round is the current round and is incremented when the user submits the current round
   const [round, setRound] = React.useState(1)
+  // current result is the result of the current round and is null if the round has not been submitted
   const [currentResult, setCurrentResult] = React.useState<TODO>(null)
+  // results is the accumulated results of all rounds
   const [results, setResults] = React.useState<TODO>(null)
+  // submitted is true when the user has submitted the last round
   const [submitted, setSubmitted] = React.useState<boolean>(false)
+  // make an array of form names
+  const formFieldNames = Array.from(
+    { length: steps },
+    (_, i) => `round_${i + 1}`
+  )
   const methods = useForm()
+  // onSubmit Called when the user submits the current round, calculates current result and accumulates results
   const onSubmit = methods.handleSubmit((data) => {
-    console.log(data)
+    console.log(`form submitted - ${JSON.stringify(data, null, 2)}`)
+    const currentRound = formFieldNames[round - 1]
     const currentResult = {
-      [`round_${round}`]: data[`round_${round}`],
+      [currentRound]: data[currentRound],
     }
     const accResult = {
       ...results,
@@ -25,11 +37,16 @@ export function Game() {
     }
     setCurrentResult(currentResult)
     setResults(accResult)
-    methods.reset()
+    methods.reset(accResult, {
+      keepValues: false,
+      keepIsSubmitted: false,
+    })
   })
+  // onClickNextRound Called when the user clicks the Next Round button, after viewing the current result
   const onClickNextRound = () => {
+    const currentRound = round + 1
     if (round < steps) {
-      setRound(round + 1)
+      setRound(currentRound)
       setCurrentResult(null)
     } else {
       // todo submit
@@ -41,7 +58,7 @@ export function Game() {
   return (
     <FormProvider {...methods}>
       {/*begin section for rounds*/}
-      <section className={"section"}>
+      <section id={"round"} className={"section"}>
         {round <= steps && !submitted && (
           <form onSubmit={onSubmit}>
             <Round round={round} disabled={!!currentResult} />
@@ -53,7 +70,7 @@ export function Game() {
       </section>
       {/*end section for rounds*/}
       {/*begin section for current result*/}
-      <section className={"section"}>
+      <section id={"current-result"} className={"section"}>
         {!!currentResult && (
           <>
             <pre>{JSON.stringify(currentResult, null, 2)}</pre>
@@ -68,7 +85,7 @@ export function Game() {
       </section>
       {/*end section for current result*/}
       {/*begin section for results*/}
-      <section className={"section"}>
+      <section id={"results"} className={"section"}>
         {submitted && (
           <>
             <h2>Results</h2>

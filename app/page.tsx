@@ -11,7 +11,7 @@ export const metadata = {
 export default async function Home() {
   return (
     <main className={`${styles.main} container`}>
-      <h1 className={styles.title}>Cha Cha Cha</h1>
+      <h1 className={styles.title}>ayeeee</h1>
       <Image
         className={styles.mainImage}
         src={hectorLavoe}
