@@ -84,10 +84,6 @@ h6,
   @apply text-h6;
 }
 
-code {
-  @apply before:hidden after:hidden;
-}
-
 a {
   text-decoration: none;
   color: var(--text-color);

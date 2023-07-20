@@ -1,6 +1,7 @@
 "use client"
 import { useCanvas } from "@/lib/use-canvas.tsx"
 import { decode } from "blurhash"
+import styles from "@/components/colors.module.css"
 
 const SIZE = 640
 
@@ -12,7 +13,7 @@ export function Colors({ blurhashData }: { blurhashData: string }) {
     ctx.putImageData(imageData, 0, 0)
   })
   return (
-    <div>
+    <div className={styles.blurImageWrap}>
       <canvas width={SIZE} height={SIZE} ref={ref} />
     </div>
   )

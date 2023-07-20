@@ -2,14 +2,28 @@
 import React from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { Round } from "@/components/round.tsx"
+import { SongQuestion } from "@/types"
+import styles from "@/components/game.module.css"
 
 // todo: don't hard code 5
 const steps = 5
 // todo
 type TODO = any
 
+const randomizeOrder = (array: Array<TODO>) => {
+  const result = [...array]
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * i)
+    const temp = result[i]
+    result[i] = result[j]
+    result[j] = temp
+  }
+  return result
+}
+
 // todo no optimizations
-export function Game() {
+export function Game({ songs }: { songs: Array<SongQuestion> }) {
+  songs = randomizeOrder(songs)
   // round is the current round and is incremented when the user submits the current round
   const [round, setRound] = React.useState(1)
   // current result is the result of the current round and is null if the round has not been submitted
@@ -21,7 +35,7 @@ export function Game() {
   // make an array of form names
   const formFieldNames = Array.from(
     { length: steps },
-    (_, i) => `round_${i + 1}`
+    (_, i) => `round_${i + 1}`,
   )
   const methods = useForm()
   // onSubmit Called when the user submits the current round, calculates current result and accumulates results
@@ -60,10 +74,14 @@ export function Game() {
       {/*begin section for rounds*/}
       <section id={"round"} className={"section"}>
         {round <= steps && !submitted && (
-          <form onSubmit={onSubmit}>
-            <Round round={round} disabled={!!currentResult} />
+          <form className={styles.form} onSubmit={onSubmit}>
+            <Round
+              round={round}
+              disabled={!!currentResult}
+              song={songs[round - 1]}
+            />
             {!currentResult && (
-              <button className={"btn btn-primary"}>Submit</button>
+              <button className={"btn btn-primary mt-20"}>Submit</button>
             )}
           </form>
         )}

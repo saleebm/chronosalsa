@@ -22,4 +22,13 @@ declare module "*.jpeg" {
 
 export type SongProps = Prisma.SongGetPayload<{
   include: { Album: true; Artist: true }
-}>
+}> & {
+  Album: Prisma.AlbumGetPayload
+  Artist: Prisma.ArtistGetPayload
+}
+
+export type SongQuestion = {
+  releaseYear: string
+  blurHash: string | null
+  previewUrl: string
+}

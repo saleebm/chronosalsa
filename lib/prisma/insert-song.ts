@@ -1,7 +1,13 @@
+import type { Prisma } from "@prisma/client"
 import prisma from "@/lib/prisma/index"
 import { blurhashFromURL } from "@/lib/blurhash-from-url.ts"
 
-// todo export insertSongAwaitable (create a promise for bulk insert?)
+interface InsertSongProps {
+  track: SpotifyApi.TrackObjectFull
+  genre: string
+  force?: boolean
+  releaseYear?: string | null
+}
 
 const createArtist = async (track: SpotifyApi.TrackObjectFull) => {
   const artistData = {
@@ -22,7 +28,7 @@ const createAlbum = async (track: SpotifyApi.TrackObjectFull) => {
   const image =
     Array.isArray(track.album.images) && !!track.album.images[0]
       ? track.album.images.sort((a, b) =>
-          !!a.width && b.width && a.width > b.width ? -1 : 1
+          !!a.width && b.width && a.width > b.width ? -1 : 1,
         )[0]
       : null
   let blurredImageData = null
@@ -38,13 +44,13 @@ const createAlbum = async (track: SpotifyApi.TrackObjectFull) => {
     releaseDate = new Date(track.album.release_date)
     if (isNaN(releaseDate.getTime())) {
       throw new Error(
-        `Parsed invalid date date=${track.album.release_date} precision=${track.album.release_date_precision}`
+        `Parsed invalid date date=${track.album.release_date} precision=${track.album.release_date_precision}`,
       )
     }
   }
   if (!releaseDate) {
     throw new Error(
-      `Did not get a release year for track=${track.name} album=${track.album.name} id=${track.id}`
+      `Did not get a release year for track=${track.name} album=${track.album.name} id=${track.id}`,
     )
   }
   const albumData = {
@@ -67,18 +73,13 @@ const createAlbum = async (track: SpotifyApi.TrackObjectFull) => {
 
 async function insertSongAwaitable({
   track,
-  number,
   genre,
   force = false,
-}: {
-  track: SpotifyApi.TrackObjectFull
-  number: number
-  genre: string
-  force?: boolean
-}) {
+  releaseYear = null,
+}: InsertSongProps) {
   if (!track.preview_url) {
     throw new Error(
-      `Track has no preview url name=${track.name} id=${track.id} genre=${genre}`
+      `Track has no preview url name=${track.name} id=${track.id} genre=${genre}`,
     )
   }
   let album = await prisma.album.findUnique({
@@ -89,22 +90,32 @@ async function insertSongAwaitable({
   if (!album || force) {
     album = await createAlbum(track)
   }
-  let artists: ReadonlyArray<{ id: string }> = []
-  for (const artist of track.artists) {
+  if (releaseYear && album.releaseYear !== releaseYear) {
+    await prisma.album.update({
+      where: {
+        uniqueId: track.album.id,
+      },
+      data: {
+        releaseYear,
+      },
+    })
+  }
+  let artists: Array<{ id: string }> = []
+  for (const trackArtist of track.artists) {
     let artist = await prisma.artist.findUnique({
       where: {
-        uniqueId: track.artists[0].id,
+        uniqueId: trackArtist.id,
       },
     })
     if (!artist || force) {
       artist = await createArtist(track)
-      artists = [
-        ...artists,
-        {
-          id: artist.id,
-        },
-      ]
     }
+    artists = [
+      ...artists,
+      {
+        id: artist.id,
+      },
+    ]
   }
 
   const data = {
@@ -114,10 +125,9 @@ async function insertSongAwaitable({
       },
     },
     Artist: {
-      connect: [],
+      connect: artists as Prisma.ArtistWhereUniqueInput[],
     },
     uniqueId: track.id,
-    number: number,
     genre,
     name: track.name,
     previewUrl: track.preview_url,
@@ -135,14 +145,9 @@ async function insertSongAwaitable({
 
 export async function insertSong({
   track,
-  number,
   genre,
   force = false,
-}: {
-  track: SpotifyApi.TrackObjectFull
-  number: number
-  genre: string
-  force?: boolean
-}) {
-  return await insertSongAwaitable({ track, number, genre, force })
+  releaseYear = null,
+}: InsertSongProps) {
+  return await insertSongAwaitable({ track, genre, force, releaseYear })
 }

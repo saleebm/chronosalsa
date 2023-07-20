@@ -12,10 +12,8 @@ CREATE TABLE `User` (
 CREATE TABLE `Song` (
     `id` VARCHAR(191) NOT NULL,
     `uniqueId` VARCHAR(191) NOT NULL,
-    `number` INTEGER NOT NULL,
     `genre` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
-    `artistUniqueId` VARCHAR(191) NOT NULL,
     `albumUniqueId` VARCHAR(191) NULL,
     `previewUrl` VARCHAR(191) NOT NULL,
     `externalUrl` VARCHAR(191) NULL,
@@ -23,7 +21,6 @@ CREATE TABLE `Song` (
     `modifiedAt` DATETIME(3) NOT NULL,
 
     UNIQUE INDEX `Song_uniqueId_key`(`uniqueId`),
-    INDEX `Song_number_genre_idx`(`number`, `genre`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

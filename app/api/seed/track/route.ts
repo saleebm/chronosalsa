@@ -18,12 +18,6 @@ export async function POST(request: Request, response: NextResponse) {
     const genre = genreRaw.toLowerCase()
     const track = await getTrack(trackId)
 
-    const currentNumber = await prisma.song.count({
-      where: {
-        genre: genre,
-      },
-    })
-
     if (track && "error" in track) {
       console.error("received error from get track", track.error)
       return NextResponse.json({ success: false, error: track.error.message })
@@ -31,7 +25,6 @@ export async function POST(request: Request, response: NextResponse) {
       // seed
       await insertSong({
         track,
-        number: currentNumber + 1,
         force,
         genre,
       })

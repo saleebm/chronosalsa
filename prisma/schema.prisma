@@ -18,20 +18,17 @@ model User {
 }
 
 model Song {
-  id             String   @id() @default(cuid())
-  uniqueId       String   @unique // spotify id
-  number         Int // autoincremented, uniq to the song and genre, starts at 1
-  genre          String
-  name           String
-  Artist         Artist[]
-  Album          Album?   @relation(fields: [albumUniqueId], references: [uniqueId])
-  albumUniqueId  String?
-  previewUrl     String // must have audio sample to play
-  externalUrl    String?
-  createdAt      DateTime @default(now())
-  modifiedAt     DateTime @updatedAt
-
-  @@index([number, genre]) // unique by genre and number
+  id            String   @id() @default(cuid())
+  uniqueId      String   @unique // spotify id
+  genre         String
+  name          String
+  Artist        Artist[]
+  Album         Album?   @relation(fields: [albumUniqueId], references: [uniqueId])
+  albumUniqueId String?
+  previewUrl    String // must have audio sample to play
+  externalUrl   String?
+  createdAt     DateTime @default(now())
+  modifiedAt    DateTime @updatedAt
 }
 
 model Album {

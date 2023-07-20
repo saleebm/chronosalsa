@@ -9,7 +9,7 @@
     @apply absolute left-1/2 top-1/2 -z-[1] h-full w-full translate-x-[-50%]  translate-y-[-50%] rounded-[30px] bg-primary transition-all duration-300 ease-in-out content-[''];
   }
 
-  &:hover, &:focus {
+  &:hover, &:focus, &:focus-visible::after {
     @apply text-amber-200 outline-0;
 
     &::after {
@@ -25,7 +25,7 @@
     @apply absolute left-1/2 top-1/2 z-[0] h-full w-full translate-x-[-50%]  translate-y-[-50%] rounded-[30px] border border-primary bg-transparent transition-all duration-300 ease-in-out content-[''];
   }
 
-  &:hover::after, &:focus::after {
+  &:hover::after, &:focus::after, &:focus-visible::after {
     @apply h-[110%] w-[110%];
   }
 }

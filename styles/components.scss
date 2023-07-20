@@ -7,3 +7,80 @@
 .container {
   @apply mx-auto max-w-[1140px] px-4;
 }
+
+.slider {
+  display: flex;
+}
+
+.slider.horizontal {
+  flex-direction: column;
+  width: 100%;
+}
+
+.slider.vertical {
+  height: 150px;
+}
+
+.label-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.slider.horizontal .track {
+  height: 30px;
+  width: 100%;
+}
+
+/* track line */
+.track:before {
+  content: attr(x);
+  display: block;
+  position: absolute;
+  background: #fffbfb;
+}
+
+.slider.horizontal .track:before {
+  height: 3px;
+  width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.slider.vertical .track {
+  width: 30px;
+  height: 100%;
+}
+
+.slider.vertical .track:before {
+  width: 3px;
+  height: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ff0000;
+}
+
+.thumb.dragging {
+  background: #ff2424;
+}
+
+.thumb.focus {
+  background: #ff7f00;
+}
+
+.slider.horizontal .thumb {
+  top: 50%;
+}
+
+.slider.vertical .thumb {
+  left: 50%;
+}
+
+.track.disabled {
+  opacity: 0.4;
+}
