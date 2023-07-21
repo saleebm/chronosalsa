@@ -3,7 +3,6 @@ import { getAuth } from "@/lib/auth/spotify/get-auth"
 import { cookies } from "next/headers"
 import { getTrack } from "@/lib/spotify/get-track"
 import { insertSong } from "@/lib/prisma/insert-song"
-import prisma from "@/lib/prisma"
 
 export async function POST(request: Request, response: NextResponse) {
   let error
@@ -16,20 +15,21 @@ export async function POST(request: Request, response: NextResponse) {
 
     const { trackId, genre: genreRaw, force } = await request.json()
     const genre = genreRaw.toLowerCase()
-    const track = await getTrack(trackId)
+    const track = await getTrack(trackId, force)
 
     if (track && "error" in track) {
       console.error("received error from get track", track.error)
       return NextResponse.json({ success: false, error: track.error.message })
     } else {
       // seed
-      await insertSong({
+      const result = await insertSong({
         track,
         force,
         genre,
       })
       return NextResponse.json({
         success: true,
+        result,
       })
     }
   } catch (e) {

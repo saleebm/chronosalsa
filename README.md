@@ -33,3 +33,11 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 2. Footer menu links
 3. FAQ page - transparency
 4. CMS / edit option for content (remote files)
+
+## playlist ids
+
+Cafe con leche ☕️
+
+```
+5AZE6dPTRQ5ncxRol5XQwL
+```

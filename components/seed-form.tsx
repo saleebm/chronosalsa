@@ -21,6 +21,7 @@ export function SeedForm() {
       id: string
       type: string
       genre: string
+      force: boolean
     }>
   >([])
 
@@ -32,6 +33,7 @@ export function SeedForm() {
         genre: values.genre,
         force: values.force,
       }
+      // todo enforce only one of playlistId or trackId
       if (values.playlistId) {
         type = "playlist"
         res = await fetch("/api/seed/playlist", {
@@ -61,6 +63,7 @@ export function SeedForm() {
           type,
           id: values.playlistId || values.trackId,
           genre: values.genre,
+          force: values.force,
         },
       ])
     } catch (e) {
@@ -125,6 +128,7 @@ export function SeedForm() {
               <th className='border-b px-4 py-2'>ID</th>
               <th className='border-b px-4 py-2'>Type</th>
               <th className='border-b px-4 py-2'>Genre</th>
+              <th className='border-b px-4 py-2'>Forced</th>
               <th className='border-b px-4 py-2'>Result</th>
             </tr>
           </thead>
@@ -134,6 +138,7 @@ export function SeedForm() {
                 <td className='border-b px-4 py-2'>{result.id}</td>
                 <td className='border-b px-4 py-2'>{result.type}</td>
                 <td className='border-b px-4 py-2'>{result.genre}</td>
+                <td className='border-b px-4 py-2'>{result.force}</td>
                 <td className='border-b px-4 py-2'>
                   <span
                     className={

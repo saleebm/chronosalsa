@@ -60,6 +60,7 @@ export function Game({
       keepValues: false,
       keepIsSubmitted: false,
     })
+    // todo scroll to current results after timeout
   })
   useEffect(() => {
     if (typeof window !== "undefined") {

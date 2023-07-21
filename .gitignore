@@ -40,3 +40,9 @@ next-env.d.ts
 
 keys/.private
 keys/.private.pub
+
+fixtures/tracks/*
+!fixtures/tracks/.gitkeep
+
+fixtures/playlists/*
+!fixtures/playlists/.gitkeep

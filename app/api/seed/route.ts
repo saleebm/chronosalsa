@@ -1,11 +1,16 @@
 import { NextResponse } from "next/server"
-import { getAuth } from "@/lib/auth/spotify/get-auth"
+import fs from "fs"
 import { cookies } from "next/headers"
-import { getTrack } from "@/lib/spotify/get-track"
-import { insertSong } from "@/lib/prisma/insert-song"
+import { getAuth } from "@/lib/auth/spotify/get-auth"
+import { getTracks } from "@/lib/spotify/get-tracks.ts"
+import { bulkInsertSongs, BulkSong } from "@/lib/prisma/bulk-insert-songs.ts"
+import { getPlaylistItems } from "@/lib/spotify/get-playlist-items.ts"
 
 export async function GET(request: Request, response: NextResponse) {
   let error
+  const { searchParams } = new URL(request.url)
+  const force = searchParams.get("force") === "true"
+  console.log("getSeed begin force", force)
   try {
     const authResult = await getAuth(cookies())
     if (!authResult?.authenticated)
@@ -13,57 +18,76 @@ export async function GET(request: Request, response: NextResponse) {
         status: 403,
       })
 
-    const songs = [
-      {
-        id: "53ouAECHnwj8AV1fzXf5dk",
-      },
-      {
-        id: "7Kmfjms3yyhg2y56mN7EfZ",
-      },
-      {
-        id: "5Uve0jm1RgxKWzdSvncBDO",
-      },
-      {
-        id: "1r6oqZhRYStrYWSeGKuCFP",
-      },
-      {
-        id: "3QHMxEOAGD51PDlbFPHLyJ",
-      },
-      {
-        id: "2naqSVQHgiaoEpxtkVOhmK",
-      },
-      {
-        id: "44U35RnFHAyhnk68LWwhYj",
-        releaseYear: "1930", // spotify has the wrong release year
-      },
-    ]
-    const genre = "salsa"
-    const promises: Array<Promise<any>> = []
-
-    for (const song of songs) {
-      const track = await getTrack(song.id)
-
-      if (track && "error" in track) {
-        console.error("received error from get track", track.error)
-        return NextResponse.json({ success: false, error: track.error.message })
-      } else {
-        // seed
-        const promise = insertSong({
-          track,
-          force: true,
-          genre,
-          ...("releaseYear" in song ? { releaseYear: song.releaseYear } : {}),
-        })
-        promises.push(promise)
+    // read seed file `pwd`/fixtures/seed.json
+    const fileSync = fs.readFileSync(
+      `${process.cwd()}/fixtures/seed.json`,
+      "utf8",
+    )
+    if (!fileSync) {
+      console.error("could not read seed file")
+      return NextResponse.json({ success: false, error: "could not read file" })
+    }
+    const songs = JSON.parse(fileSync) as Array<BulkSong>
+    if (!songs || songs.length === 0) {
+      console.error("no songs found in seed file")
+      return NextResponse.json({ success: false, error: "no songs found" })
+    }
+    const trackIds = songs.filter((s) => s.type !== "playlist").map((s) => s.id)
+    let data = await getTracks(trackIds)
+    const playlists = songs.filter((s) => s.type === "playlist")
+    if (playlists.length > 0) {
+      const playlistIds = playlists.map((p) => p.id)
+      for (const playlistId of playlistIds) {
+        const playlistData = await getPlaylistItems(playlistId)
+        if ("error" in playlistData) {
+          console.error(
+            "received error from get playlist items, data: ",
+            playlistData,
+          )
+          return NextResponse.json({
+            success: false,
+            error: playlistData.error.message,
+          })
+        }
+        data ||= { tracks: [] }
+        // todo types
+        if (!("tracks" in data)) (data as any).tracks = []
+        ;(data as any).tracks.push(...playlistData.items)
       }
     }
-    await Promise.allSettled(promises)
+    if (!data || "error" in data || !("tracks" in data)) {
+      const errMsg =
+        data != null && "error" in data ? data.error.message : "unknown error"
+      console.error("received error from get tracks, data: ", data)
+      return NextResponse.json({ success: false, error: errMsg })
+    }
+    for (const song of songs) {
+      if (song.type === "playlist") continue
 
+      const track = data.tracks.find((t) => t.id === song.id)
+      if (!track) {
+        console.error("could not find track for song", song)
+        return NextResponse.json({
+          success: false,
+          error: `missing track for song ${song.id}`,
+        })
+      }
+    }
+    // optional is a record of id to the song object
+    const optional: Record<string, BulkSong> = songs.reduce(
+      (acc, song) => {
+        acc[song.id] = song
+        return acc
+      },
+      {} as Record<string, BulkSong>,
+    )
+    const results = await bulkInsertSongs(data.tracks, "salsa", optional, force)
     return NextResponse.json({
       success: true,
+      results,
     })
   } catch (e) {
-    console.error("seed track failed", e)
+    console.error("seed track failed\n", e)
     error = e instanceof Error && "message" in e ? e.message : "unknown error"
   }
 
