@@ -29,10 +29,10 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ## Todo
 
-1. Fix email
-2. Footer menu links
-3. FAQ page - transparency
-4. CMS / edit option for content (remote files)
+### Seeding tings
+
+- optimize the seed script to not reseed the same data
+  - separate upsert into bulk insert and update (one time insert vs multiple seedings)
 
 ## playlist ids
 

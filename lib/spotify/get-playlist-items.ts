@@ -1,8 +1,8 @@
 import { getAuth } from "@/lib/auth/spotify/get-auth"
 import { cookies } from "next/headers"
+import fs from "fs"
 import { strict as assert } from "assert"
 import { makeRequest } from "@/lib/spotify/make-request"
-import fs from "fs"
 import { getFixture } from "@/lib/utils/get-fixture.ts"
 
 export async function getPlaylistItems(
@@ -14,6 +14,7 @@ export async function getPlaylistItems(
 
   let result
   const cachedPath = `${process.cwd()}/fixtures/playlists/${playlistId}.json`
+  // if we're not forcing a refresh and the file exists, use it
   if (!forceRefresh && fs.existsSync(cachedPath)) {
     try {
       const file = getFixture(cachedPath)

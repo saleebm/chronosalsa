@@ -18,17 +18,18 @@ model User {
 }
 
 model Song {
-  id            String   @id() @default(cuid())
-  uniqueId      String   @unique // spotify id
+  id            String          @id() @default(cuid())
+  uniqueId      String          @unique // spotify id
   genre         String
   name          String
   Artist        Artist[]
-  Album         Album?   @relation(fields: [albumUniqueId], references: [uniqueId])
+  Album         Album?          @relation(fields: [albumUniqueId], references: [uniqueId])
   albumUniqueId String?
   previewUrl    String // must have audio sample to play
   externalUrl   String?
-  createdAt     DateTime @default(now())
-  modifiedAt    DateTime @updatedAt
+  createdAt     DateTime        @default(now())
+  modifiedAt    DateTime        @updatedAt
+  PlayedHistory PlayedHistory[]
 }
 
 model Album {
@@ -52,4 +53,10 @@ model Artist {
   name       String
   createdAt  DateTime @default(now())
   modifiedAt DateTime @updatedAt
+}
+
+model PlayedHistory {
+  id    String @id @default(cuid())
+  songs Song[]
+  createdAt  DateTime @default(now())
 }

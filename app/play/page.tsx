@@ -8,9 +8,13 @@ export const metadata = {
   title: "Play",
 }
 
+// todo: don't hard code 5, pass in as prop
+const pageSize = 5
+
 // todo get songs without revealing answers
 const getProps = async () => {
-  const pageSize = 5
+  // todo: don't use raw query
+  // query for songs with genre salsa and use mysql rand() function to randomize
   const results = await prisma.$queryRawUnsafe<{ id: string }[]>(
     // select where genre is equal to "salsa" using a mysql query
     `SELECT id
@@ -35,6 +39,19 @@ const getProps = async () => {
       Artist: true,
     },
   })
+  try {
+    await prisma.playedHistory.create({
+      data: {
+        songs: {
+          connect: ids.map((id) => ({
+            id,
+          })),
+        },
+      },
+    })
+  } catch (e) {
+    console.error(`Error creating played history: ${e}`)
+  }
   return {
     songs: songs.map((song) => ({
       releaseYear: obfuscateYear(song.Album!.releaseYear),
@@ -48,13 +65,10 @@ const getProps = async () => {
 export default async function Play() {
   const data = await getProps()
 
-  // todo: don't hard code 5, pass in as prop
-  const steps = 5
-
   return (
     <main className={`${styles.main} container`}>
       <h1 className={styles.title}>Play</h1>
-      <Game songs={data.songs} steps={steps} />
+      <Game songs={data.songs} steps={pageSize} />
     </main>
   )
 }

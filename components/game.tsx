@@ -3,20 +3,10 @@ import React, { useEffect } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { SongQuestion } from "@/types"
 import { GameForm } from "@/components/game-form.tsx"
+import { randomizeOrder } from "@/lib/utils/randomize-order.ts"
 
 // todo: don't use any
 type TODO = any
-
-const randomizeOrder = (array: Array<any>) => {
-  const result = [...array]
-  for (let i = result.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * i)
-    const temp = result[i]
-    result[i] = result[j]
-    result[j] = temp
-  }
-  return result
-}
 
 // todo no optimizations
 export function Game({
@@ -42,6 +32,8 @@ export function Game({
     { length: steps },
     (_, i) => `round_${i + 1}`,
   )
+  // useForm is a hook from react-hook-form that provides methods for managing the form, context
+  // is used on the input components to access the methods
   const methods = useForm()
   // onSubmit Called when the user submits the current round, calculates current result and accumulates results
   const onSubmit = methods.handleSubmit((data) => {
@@ -56,12 +48,14 @@ export function Game({
     }
     setCurrentResult(currentResult)
     setResults(accResult)
+    // reset the form, but sets values as accResult
     methods.reset(accResult, {
       keepValues: false,
       keepIsSubmitted: false,
     })
     // todo scroll to current results after timeout
   })
+  // set song order on mount
   useEffect(() => {
     if (typeof window !== "undefined") {
       const order = randomizeOrder(
@@ -83,6 +77,7 @@ export function Game({
       setSubmitted(true)
     }
   }
+
   return (
     <FormProvider {...methods}>
       {/*begin section for rounds*/}
