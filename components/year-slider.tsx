@@ -1,15 +1,14 @@
-import Slider from "rc-slider"
 import "rc-slider/assets/index.css"
-import { useEffect, useState } from "react"
+import Slider from "rc-slider"
+import { useGameContext } from "@/components/context/game.tsx"
 import styles from "@/components/year-slider.module.css"
+import { useEffect, useState } from "react"
+import { useFormContext } from "react-hook-form"
+import { useDebounce } from "usehooks-ts"
 
-interface YearSliderProps {
-  onChange: (value: number) => void
-  currentYear: number
-}
-
+const years = new Date().getFullYear() - 1930
 // map years from 1900 to current year, but only show every 10 years
-const marks = Array.from(Array(new Date().getFullYear() - 1930).keys()).reduce(
+const marks = Array.from(Array(years).keys()).reduce(
   (acc, curr) => ({
     ...acc,
     [curr + 1930]: (
@@ -20,13 +19,28 @@ const marks = Array.from(Array(new Date().getFullYear() - 1930).keys()).reduce(
   }),
   {},
 )
-export const YearSlider = (props: YearSliderProps) => {
-  const [year, setYear] = useState<number>(props.currentYear)
 
+// the year in between 1930 and current year
+const halfway = Math.floor(years / 2) + 1930
+
+export const YearSlider = () => {
+  const { setValue } = useFormContext()
+  const { round } = useGameContext()
+  const [year, setYear] = useState(halfway)
+  const debouncedValue = useDebounce<number>(year, 300)
+
+  // reset the value of the round when the round changes
   useEffect(() => {
-    props.onChange(year)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [year])
+    console.log("resetting round")
+    setValue(`round_${round}`, "")
+    setYear(halfway)
+  }, [round, setValue, setYear])
+
+  // set the value of the round when the debounced value changes
+  useEffect(() => {
+    console.log("setting round")
+    setValue(`round_${round}`, debouncedValue)
+  }, [debouncedValue, round, setValue])
 
   return (
     <div className='h-10 flex place-items-center'>

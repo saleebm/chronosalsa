@@ -7,20 +7,16 @@ import { Colors } from "@/components/colors.tsx"
 import { YearSlider } from "@/components/year-slider.tsx"
 import AudioPlayer from "react-h5-audio-player"
 import "react-h5-audio-player/lib/styles.css"
+import { useGameContext } from "@/components/context/game.tsx"
 
 interface Round {
-  readonly round: number
-  disabled?: boolean
   song: SongQuestion
 }
 
-export function Round({ round, disabled, song }: Round) {
+export function Round({ song }: Round) {
   const { register, setValue } = useFormContext()
+  const { round, currentResult } = useGameContext()
 
-  useEffect(() => {
-    // reset the value of the round when the round changes
-    setValue(`round_${round}`, "")
-  }, [round, setValue])
   return (
     <>
       <fieldset>
@@ -42,15 +38,9 @@ export function Round({ round, disabled, song }: Round) {
         <input
           {...register(`round_${round}`, { required: true })}
           type='number'
-          disabled={disabled}
-          defaultValue={1969}
+          disabled={!!currentResult}
         />
-        <YearSlider
-          currentYear={1969}
-          onChange={(value) => {
-            setValue(`round_${round}`, value)
-          }}
-        />
+        <YearSlider />
       </fieldset>
     </>
   )

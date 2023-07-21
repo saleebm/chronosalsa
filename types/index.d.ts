@@ -33,3 +33,5 @@ export type SongQuestion = {
   blurHash: string | null
   previewUrl: string
 }
+
+export type SongQuestions = Array<SongQuestion>
