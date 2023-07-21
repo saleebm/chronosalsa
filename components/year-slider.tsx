@@ -1,6 +1,7 @@
 import Slider from "rc-slider"
 import "rc-slider/assets/index.css"
 import { useEffect, useState } from "react"
+import styles from "@/components/year-slider.module.css"
 
 interface YearSliderProps {
   onChange: (value: number) => void
@@ -8,15 +9,14 @@ interface YearSliderProps {
 }
 
 // map years from 1900 to current year, but only show every 10 years
-const marks = Array.from(Array(2022 - 1930).keys()).reduce(
+const marks = Array.from(Array(new Date().getFullYear() - 1930).keys()).reduce(
   (acc, curr) => ({
     ...acc,
-    [curr + 1930]: {
-      style: {
-        color: "white",
-      },
-      label: curr % 10 === 0 ? curr + 1930 : "",
-    },
+    [curr + 1930]: (
+      <span className={curr % 10 === 0 ? styles.yearSliderTick : ""}>
+        {curr % 10 === 0 ? curr + 1930 : ""}
+      </span>
+    ),
   }),
   {},
 )
@@ -36,15 +36,31 @@ export const YearSlider = (props: YearSliderProps) => {
           max={new Date().getFullYear()}
           defaultValue={year}
           marks={marks}
+          keyboard
+          included={false}
           step={1}
+          dotStyle={(dotValue) => ({
+            borderRadius: 0,
+            border: `${dotValue === year ? "3px" : "1px"} solid #ffffff`,
+            height: 15,
+            width: dotValue === year ? 4 : 2,
+            marginTop: -14,
+            opacity: 1,
+            // add drop-shadow
+            filter: "drop-shadow(0px 0px 2px #000)",
+            ...(dotValue === year
+              ? { "--var-dot-value": `'${dotValue}'` }
+              : {}),
+          })}
+          // todo styles for active
           trackStyle={{ backgroundColor: "#ccc", height: 2 }}
           handleStyle={{
-            borderColor: "#44ff44",
+            borderColor: "#ffffff",
+            borderWidth: 3,
             height: 30,
             width: 30,
             marginTop: -14,
-            backgroundColor: "#44ff44",
-            mixBlendMode: "difference",
+            backgroundColor: "rgba(0,0,0,0.4)",
           }}
           railStyle={{ backgroundColor: "#ccc", height: 2 }}
           onChange={(value) => {

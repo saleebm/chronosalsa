@@ -1,16 +1,13 @@
 "use client"
-import React from "react"
+import React, { useEffect } from "react"
 import { FormProvider, useForm } from "react-hook-form"
-import { Round } from "@/components/round.tsx"
 import { SongQuestion } from "@/types"
-import styles from "@/components/game.module.css"
+import { GameForm } from "@/components/game-form.tsx"
 
-// todo: don't hard code 5
-const steps = 5
-// todo
+// todo: don't use any
 type TODO = any
 
-const randomizeOrder = (array: Array<TODO>) => {
+const randomizeOrder = (array: Array<any>) => {
   const result = [...array]
   for (let i = result.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * i)
@@ -22,8 +19,16 @@ const randomizeOrder = (array: Array<TODO>) => {
 }
 
 // todo no optimizations
-export function Game({ songs }: { songs: Array<SongQuestion> }) {
-  songs = randomizeOrder(songs)
+export function Game({
+  songs,
+  steps,
+}: {
+  songs: Array<SongQuestion>
+  steps: number
+}) {
+  // songOrder is the order of songs, it is randomized from the get go
+  // it is an object with the key as the round number and the value as the index of the song in the songs array
+  const [songOrder, setSongOrder] = React.useState<TODO>(null)
   // round is the current round and is incremented when the user submits the current round
   const [round, setRound] = React.useState(1)
   // current result is the result of the current round and is null if the round has not been submitted
@@ -56,6 +61,14 @@ export function Game({ songs }: { songs: Array<SongQuestion> }) {
       keepIsSubmitted: false,
     })
   })
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const order = randomizeOrder(
+        Array.from({ length: steps }, (_, i) => i),
+      ).reduce((acc, cur, i) => ({ ...acc, [i + 1]: cur }), {})
+      setSongOrder(order)
+    }
+  }, [songs, steps])
   // onClickNextRound Called when the user clicks the Next Round button, after viewing the current result
   const onClickNextRound = () => {
     const currentRound = round + 1
@@ -73,17 +86,15 @@ export function Game({ songs }: { songs: Array<SongQuestion> }) {
     <FormProvider {...methods}>
       {/*begin section for rounds*/}
       <section id={"round"} className={"section"}>
-        {round <= steps && !submitted && (
-          <form className={styles.form} onSubmit={onSubmit}>
-            <Round
-              round={round}
-              disabled={!!currentResult}
-              song={songs[round - 1]}
-            />
-            {!currentResult && (
-              <button className={"btn btn-primary mt-20"}>Submit</button>
-            )}
-          </form>
+        <h2>Game</h2>
+        {songOrder != null && round <= steps && !submitted && (
+          <GameForm
+            currentResult={currentResult}
+            onSubmit={onSubmit}
+            round={round}
+            songs={songs}
+            songOrder={songOrder}
+          />
         )}
       </section>
       {/*end section for rounds*/}
@@ -91,6 +102,7 @@ export function Game({ songs }: { songs: Array<SongQuestion> }) {
       <section id={"current-result"} className={"section"}>
         {!!currentResult && (
           <>
+            <h2>Result</h2>
             <pre>{JSON.stringify(currentResult, null, 2)}</pre>
             <button
               className={"btn btn-outline-primary"}
@@ -103,6 +115,7 @@ export function Game({ songs }: { songs: Array<SongQuestion> }) {
       </section>
       {/*end section for current result*/}
       {/*begin section for results*/}
+      {/*todo move to separate page, redirect to url with list of ids?*/}
       <section id={"results"} className={"section"}>
         {submitted && (
           <>

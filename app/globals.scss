@@ -1,1 +1,18 @@
 @import "styles/style";
+
+.rc-slider-dot::before {
+  content: var(--var-dot-value);
+  top: -42px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: -0.9rem;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.69);
+  padding: 2px 5px;
+  border-radius: 5px;
+  z-index: 1;
+  // reset to default cursor
+    cursor: default;
+}

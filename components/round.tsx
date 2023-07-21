@@ -1,11 +1,12 @@
 "use client"
 
 import { useFormContext } from "react-hook-form"
-import { useEffect, useRef } from "react"
+import { useEffect } from "react"
 import type { SongQuestion } from "@/types"
 import { Colors } from "@/components/colors.tsx"
 import { YearSlider } from "@/components/year-slider.tsx"
-import styles from "@/components/round.module.css"
+import AudioPlayer from "react-h5-audio-player"
+import "react-h5-audio-player/lib/styles.css"
 
 interface Round {
   readonly round: number
@@ -27,11 +28,22 @@ export function Round({ round, disabled, song }: Round) {
         <Colors
           blurhashData={song.blurHash || "L00000fQfQfQfQfQfQfQfQfQfQfQ"}
         />
+        <AudioPlayer
+          showFilledProgress={true}
+          autoPlayAfterSrcChange={false}
+          autoPlay={false}
+          src={song.previewUrl}
+          showDownloadProgress={false}
+          showSkipControls={false}
+          showJumpControls={false}
+          hasDefaultKeyBindings={false}
+        />
         <label htmlFor={`round_${round}`}>Year</label>
         <input
           {...register(`round_${round}`, { required: true })}
           type='number'
           disabled={disabled}
+          defaultValue={1969}
         />
         <YearSlider
           currentYear={1969}

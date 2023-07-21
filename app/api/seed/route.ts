@@ -3,7 +3,6 @@ import { getAuth } from "@/lib/auth/spotify/get-auth"
 import { cookies } from "next/headers"
 import { getTrack } from "@/lib/spotify/get-track"
 import { insertSong } from "@/lib/prisma/insert-song"
-import prisma from "@/lib/prisma"
 
 export async function GET(request: Request, response: NextResponse) {
   let error
@@ -29,6 +28,9 @@ export async function GET(request: Request, response: NextResponse) {
       },
       {
         id: "3QHMxEOAGD51PDlbFPHLyJ",
+      },
+      {
+        id: "2naqSVQHgiaoEpxtkVOhmK",
       },
       {
         id: "44U35RnFHAyhnk68LWwhYj",

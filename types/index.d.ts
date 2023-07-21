@@ -28,6 +28,7 @@ export type SongProps = Prisma.SongGetPayload<{
 }
 
 export type SongQuestion = {
+  id: string
   releaseYear: string
   blurHash: string | null
   previewUrl: string
