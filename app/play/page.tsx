@@ -13,21 +13,31 @@ const pageSize = 5
 
 // todo get songs without revealing answers
 const getProps = async () => {
-  // todo: don't use raw query
-  // query for songs with genre salsa and use mysql rand() function to randomize
-  const results = await prisma.$queryRawUnsafe<{ id: string }[]>(
-    // select where genre is equal to "salsa" using a mysql query
-    `SELECT id
+  let ids: string[] = []
+  try {
+    // todo: don't use raw query
+    // query for songs with genre salsa and use mysql rand() function to randomize
+    const results = await prisma.$queryRawUnsafe<{ id: string }[]>(
+      // select where genre is equal to "salsa" using a mysql query
+      `SELECT id
      FROM Song
      WHERE genre = "salsa"
      ORDER BY RAND() LIMIT ${pageSize};`,
-  )
-  if (!results) {
-    console.error(`Error: ${results}`)
-    throw new Error("Error: no results")
+    )
+    if (!results) {
+      console.error(`Error: ${results}`)
+      throw new Error("Error: no results")
+    }
+
+    ids = results.map((item) => item.id)
+  } catch (e) {
+    console.error(`Error:`, e)
+    if (e instanceof Error) {
+      throw new Error(e.message)
+    }
+    throw new Error("Error executing query")
   }
 
-  const ids = results.map((item) => item.id)
   const songs = await prisma.song.findMany({
     where: {
       id: {

@@ -22,7 +22,7 @@
     "cookie": "^0.5.0",
     "framer-motion": "^10.13.0",
     "immer": "^10.0.2",
-    "next": "13.4.10",
+    "next": "13.4.11",
     "query-string": "^8.1.0",
     "rc-slider": "^10.2.1",
     "react": "18.2.0",
@@ -30,7 +30,7 @@
     "react-h5-audio-player": "^3.8.6",
     "react-hook-form": "^7.45.2",
     "secure-random": "^1.1.2",
-    "sharp": "^0.32.3",
+    "sharp": "^0.32.4",
     "typescript": "5.1.6"
   },
   "devDependencies": {
@@ -44,7 +44,7 @@
     "@types/spotify-api": "^0.0.22",
     "autoprefixer": "^10.4.14",
     "eslint": "8.45.0",
-    "eslint-config-next": "13.4.10",
+    "eslint-config-next": "13.4.11",
     "fiber": "^1.0.4",
     "prettier": "^3.0.0",
     "prettier-plugin-tailwindcss": "^0.4.1",
