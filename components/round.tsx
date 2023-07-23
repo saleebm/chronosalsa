@@ -15,7 +15,7 @@ interface Round {
 
 export function Round({ song }: Round) {
   const { register, setValue } = useFormContext()
-  const { round, currentResult } = useGameContext()
+  const { round } = useGameContext()
 
   return (
     <>
@@ -34,11 +34,14 @@ export function Round({ song }: Round) {
           showJumpControls={false}
           hasDefaultKeyBindings={false}
         />
-        <label htmlFor={`round_${round}`}>Year</label>
+        <label className={"select-none sr-only"} htmlFor={`round_${round}`}>
+          Year
+        </label>
         <input
           {...register(`round_${round}`, { required: true })}
           type='number'
-          disabled={!!currentResult}
+          hidden
+          className={"select-none sr-only"}
         />
         <YearSlider />
       </fieldset>

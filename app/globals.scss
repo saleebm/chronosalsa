@@ -1,18 +1,41 @@
 @import "styles/style";
 
-.rc-slider-dot::before {
-  content: var(--var-dot-value);
-  top: -42px;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: -0.9rem;
-  font-weight: 600;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.69);
-  padding: 2px 5px;
-  border-radius: 5px;
-  z-index: 1;
-  // reset to default cursor
+.rc-slider-dot {
+  border-radius: 0 !important;
+  height: 22px !important;
+  width: 12px !important;
+  bottom: 3px !important;
+  border: 1px solid transparent !important;
+  // gradient background color
+  background: linear-gradient(180deg, rgba(255, 0, 0, 0) 0%, rgba(255, 0, 0, 0.69) 100%) !important;
+
+  @media screen and (prefers-reduced-motion: no-preference) {
+    transition: transform 0.2s ease-in-out;
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 3px !important;
+  }
+
+  @media screen and (max-width: 540px) {
+    width: 1px !important;
+  }
+
+  &::before {
+    content: var(--var-dot-value);
+    top: -45px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    filter: drop-shadow(0px 1px 1px rgba(255, 255, 255, 0.69)) contrast(1.2);
+    background: rgba(222, 0, 0, 0.69);
+    padding: 2.4px 4.2px;
+    border-radius: 4.2px;
+    z-index: 1;
+    // reset to default cursor
     cursor: default;
+  }
 }

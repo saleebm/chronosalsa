@@ -5,29 +5,42 @@ import styles from "@/components/year-slider.module.css"
 import { useEffect, useState } from "react"
 import { useFormContext } from "react-hook-form"
 import { useDebounce } from "usehooks-ts"
+import { Properties } from "csstype"
+import useMediaQuery from "beautiful-react-hooks/useMediaQuery"
 
-const years = new Date().getFullYear() - 1930
-// map years from 1900 to current year, but only show every 10 years
-const marks = Array.from(Array(years).keys()).reduce(
-  (acc, curr) => ({
-    ...acc,
-    [curr + 1930]: (
-      <span className={curr % 10 === 0 ? styles.yearSliderTick : ""}>
-        {curr % 10 === 0 ? curr + 1930 : ""}
-      </span>
-    ),
-  }),
-  {},
-)
-
+const years = new Date().getFullYear() + 1 - 1930
 // the year in between 1930 and current year
 const halfway = Math.floor(years / 2) + 1930
 
 export const YearSlider = () => {
+  const isUnder768 = useMediaQuery("(max-width: 768px)")
+  const isUnder480 = useMediaQuery("(max-width: 540px)")
   const { setValue } = useFormContext()
   const { round } = useGameContext()
   const [year, setYear] = useState(halfway)
   const debouncedValue = useDebounce<number>(year, 300)
+  const [marks, setMarks] = useState({})
+  useEffect(() => {
+    let yearMarks = {}
+    let rule: number = 5
+    if (isUnder480) {
+      rule = 18
+    } else if (isUnder768) {
+      rule = 10
+    }
+    yearMarks = Array.from(Array(years).keys()).reduce(
+      (acc, curr) => ({
+        ...acc,
+        [curr + 1930]: (
+          <p className={curr % rule === 0 ? styles.yearSliderTick : ""}>
+            {curr % rule === 0 ? curr + 1930 : ""}
+          </p>
+        ),
+      }),
+      {},
+    )
+    setMarks(yearMarks)
+  }, [isUnder768, setMarks])
 
   // reset the value of the round when the round changes
   useEffect(() => {
@@ -42,41 +55,34 @@ export const YearSlider = () => {
     setValue(`round_${round}`, debouncedValue)
   }, [debouncedValue, round, setValue])
 
+  // todo mobile
   return (
-    <div className='h-10 flex place-items-center'>
+    <div className='h-10 flex place-items-center mt-5'>
       <div className='p-10 w-full'>
         <Slider
           min={1930}
           max={new Date().getFullYear()}
-          defaultValue={year}
           marks={marks}
           keyboard
           included={false}
+          value={year}
           step={1}
-          dotStyle={(dotValue) => ({
-            borderRadius: 0,
-            border: `${dotValue === year ? "3px" : "1px"} solid #ffffff`,
-            height: 15,
-            width: dotValue === year ? 4 : 2,
-            marginTop: -14,
-            opacity: 1,
-            // add drop-shadow
-            filter: "drop-shadow(0px 0px 2px #000)",
-            ...(dotValue === year
-              ? { "--var-dot-value": `'${dotValue}'` }
-              : {}),
-          })}
-          // todo styles for active
+          dotStyle={(dotValue) =>
+            dotValue === year
+              ? // see globals.scss for usage
+                ({ "--var-dot-value": `'${dotValue}'` } as Properties<string>)
+              : {}
+          }
           trackStyle={{ backgroundColor: "#ccc", height: 2 }}
           handleStyle={{
-            borderColor: "#ffffff",
+            borderColor: "#00ef30",
             borderWidth: 3,
-            height: 30,
-            width: 30,
-            marginTop: -14,
-            backgroundColor: "rgba(0,0,0,0.4)",
+            height: 33,
+            width: 33,
+            marginTop: -25,
+            backgroundColor: "rgba(0,0,0,0.42)",
           }}
-          railStyle={{ backgroundColor: "#ccc", height: 2 }}
+          railStyle={{ backgroundColor: "rgba(255, 255, 255, 0)" }}
           onChange={(value) => {
             setYear(value as number)
           }}

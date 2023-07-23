@@ -33,7 +33,8 @@
   display: block;
 }
 
-.logoText {
+.logoText,
+.logoText > a {
   /*noinspection CssUnresolvedCustomProperty*/
   font-family: var(--font-salsa);
   font-size: 4.2rem;
@@ -43,6 +44,10 @@
   margin: 20px;
   font-variant-caps: all-small-caps;
   padding: 6px;
+  /* break word and wrap */
+  word-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 .title {

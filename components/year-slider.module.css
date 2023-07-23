@@ -1,7 +1,11 @@
+/* see globals.scss for overrides */
 .yearSliderTick {
   /*for when a tick is a year*/
   color: #fffbfb;
   font-size: 0.8rem;
+  font-weight: bold;
+    text-align: center;
+  filter: drop-shadow(0px 0px 2px #000000);
   /*  do not allow highlighting*/
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */

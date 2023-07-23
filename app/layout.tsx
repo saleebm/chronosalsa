@@ -30,9 +30,11 @@ export default function RootLayout({
       <body>
         <header className={styles.header}>
           <div className={styles.logo}>
-            <Link href={"/"} className={styles.logoText}>
-              CHRONOSALSA
-            </Link>
+            <p className={styles.logoText}>
+              <Link href={"/"} title={"Homepage"}>
+                CHRONOSALSA
+              </Link>
+            </p>
           </div>
         </header>
         {children}
