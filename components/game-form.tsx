@@ -1,6 +1,6 @@
 import styles from "@/components/game.module.css"
 import { Round } from "@/components/round.tsx"
-import React, { useEffect } from "react"
+import React from "react"
 import { useGameContext } from "@/components/context/game.tsx"
 import { SongQuestions } from "@/types"
 import { useFormContext } from "react-hook-form"
@@ -11,9 +11,8 @@ export type GameFormProps = {
 }
 
 export function GameForm({ songs }: GameFormProps) {
+  const { handleSubmit, reset } = useFormContext()
   const {
-    submitted,
-    steps,
     songOrder,
     formFieldNames,
     round,
@@ -22,24 +21,17 @@ export function GameForm({ songs }: GameFormProps) {
     results,
     setResults,
   } = useGameContext()
-  // log songOrder
-  useEffect(() => {
-    if (songOrder != null && process.env.NODE_ENV === "development") {
-      console.log(
-        `
-      songOrder: ${JSON.stringify(songOrder, null, 2)}
-      songOrder[round]: ${songOrder[round]}\nsong: ${
-        JSON.stringify(songs[songOrder[round]], null, 2) || "null"
-      }`,
-      )
-    }
-  }, [songOrder, round, songs])
 
-  // handle submit
-  const { handleSubmit, reset } = useFormContext()
   // onSubmit Called when the user submits the current round, calculates current result and accumulates results
-  const onSubmit = handleSubmit((data) => {
-    console.log(`form submitted - ${JSON.stringify(data, null, 2)}`)
+  const onSubmit = handleSubmit(async (data) => {
+    console.log(`round submitted - ${JSON.stringify(data, null, 2)}`)
+    if (!songOrder) {
+      throw new Error("songOrder is null")
+    }
+    const currentSong = songs[songOrder[round]]
+    // todo
+    const songData = await fetch(`/api/song?id=${currentSong.id}`)
+    const song = await songData.json()
     const currentRound = formFieldNames[round - 1]
     const currentResult = {
       [currentRound]: data[currentRound],
@@ -55,11 +47,17 @@ export function GameForm({ songs }: GameFormProps) {
       keepValues: false,
       keepIsSubmitted: false,
     })
-    // todo scroll to current results after timeout
+    // scroll to #current-result
+    const currentResultEl = document.getElementById("current-result")
+    if (currentResultEl) {
+      currentResultEl.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      })
+    }
   })
-  // this optimization actually helps lol. Without it, I get a lot of re-renders and warning
-  // about server client mismatch
-  return songOrder != null && round <= steps && !submitted ? (
+
+  return songOrder ? (
     <form className={styles.form} onSubmit={onSubmit}>
       <Round song={songs[songOrder[round]]} />
       {!currentResult && (

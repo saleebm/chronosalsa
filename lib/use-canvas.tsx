@@ -46,7 +46,6 @@ export const useCanvas = (
 
 function resizeCanvasToDisplaySize(canvas: HTMLCanvasElement) {
   const { width, height } = canvas.getBoundingClientRect()
-  console.log({ width, height })
 
   if (canvas.width !== width || canvas.height !== height) {
     const { devicePixelRatio: ratio = 1 } = window

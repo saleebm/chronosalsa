@@ -32,6 +32,7 @@ export async function insertSong({
       console.log(`Creating album for track=${track.name} id=${track.id}`)
       album = await createAlbum(track)
     }
+    // update release year if it's different
     if (releaseYear && album.releaseYear !== releaseYear) {
       await prisma.album.update({
         where: {

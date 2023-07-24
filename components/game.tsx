@@ -28,13 +28,13 @@ export function Game({
         </section>
         {/*end section for rounds*/}
         {/*begin section for current result*/}
-        <section id={"current-result"} className={"section"}></section>
+        <section id={"current-result"} className={"section"}>
+          <Result />
+        </section>
         {/*end section for current result*/}
         {/*begin section for results*/}
         {/*todo move to separate page, redirect to url with list of ids?*/}
-        <section id={"results"} className={"section"}>
-          <Result />
-        </section>
+        <section id={"results"} className={"section"}></section>
         {/*end section for results*/}
       </GameContextProvider>
     </FormProvider>

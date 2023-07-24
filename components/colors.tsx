@@ -13,7 +13,7 @@ export function Colors({ blurhashData }: { blurhashData: string }) {
     ctx.canvas.width = ctx.canvas.getBoundingClientRect().width
     ctx.canvas.height = ctx.canvas.getBoundingClientRect().height
     ctx.putImageData(imageData, 0, 0)
-  }, true)
+  }, false)
   return (
     <div className={styles.blurImageWrap}>
       <canvas className={styles.canvas} ref={ref} />

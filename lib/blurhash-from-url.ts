@@ -15,7 +15,20 @@ export interface IOutput {
 export const blurhashFromURL = async (url: string, options: IOptions = {}) => {
   const { width = 32, height = 32 } = options
 
-  const response = await fetch(url)
+  let response
+  let retries = 0
+  while (retries < 3) {
+    try {
+      response = await fetch(url)
+      break
+    } catch (e) {
+      retries++
+      console.log(`Error fetching ${url}, retrying...`)
+    }
+  }
+  if (!response) {
+    throw new Error(`Unable to fetch ${url}`)
+  }
   const arrayBuffer = await response.arrayBuffer()
   const returnedBuffer = Buffer.from(arrayBuffer)
 
@@ -34,7 +47,7 @@ export const blurhashFromURL = async (url: string, options: IOptions = {}) => {
     info.width,
     info.height,
     4,
-    4
+    4,
   )
 
   const output: IOutput = {

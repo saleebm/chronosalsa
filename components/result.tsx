@@ -30,6 +30,7 @@ export function Result() {
       <h2>Result</h2>
       <pre>{JSON.stringify(currentResult, null, 2)}</pre>
       <button className={"btn btn-outline-primary"} onClick={onClickNextRound}>
+        {/* if round equals steps, then it is time to see the final results */}
         {round === steps ? "Submit" : "Next Round"}
       </button>
     </>
