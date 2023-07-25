@@ -29,6 +29,14 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ## Todo
 
+### Migrate away from spotify
+
+Right now, this is for funsies, but to be a real thing, it can't use spotify. Look into migrating to a different source of music, or just use the spotify api to get the songs and then play them from somewhere else.
+
+Ideas:
+- youtube
+- https://musicbrainz.org
+
 ### Seeding tings
 
 - optimize the seed script to not reseed the same data

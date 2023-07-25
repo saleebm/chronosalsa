@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import prisma from "@/lib/prisma"
+import { SongAnswer } from "@/types"
 
 export async function GET(request: Request, response: NextResponse) {
   const { searchParams } = new URL(request.url)
@@ -16,6 +17,7 @@ export async function GET(request: Request, response: NextResponse) {
     },
     include: {
       Album: true,
+      Artist: true,
     },
   })
   if (!track) {
@@ -25,11 +27,15 @@ export async function GET(request: Request, response: NextResponse) {
   }
   return NextResponse.json({
     success: true,
-    data: {
+    song: {
+      id: track.id,
       releaseYear: track.Album!.releaseYear,
       name: track.name,
       externalUrl: track.externalUrl,
       albumArt: track.Album!.imageUrl,
-    },
+      albumName: track.Album!.name,
+      artistName: track.Artist!.map((artist) => artist.name).join(", "),
+      albumArtUrl: track.Album!.imageUrl,
+    } as SongAnswer,
   })
 }

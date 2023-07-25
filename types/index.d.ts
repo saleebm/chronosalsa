@@ -35,3 +35,14 @@ export type SongQuestion = {
 }
 
 export type SongQuestions = Array<SongQuestion>
+
+export type SongAnswer = {
+  id: string
+  releaseYear: string
+  name: string
+  externalUrl: string
+  albumArt: string
+  albumName: string
+  artistName: string
+  albumArtUrl: string
+}

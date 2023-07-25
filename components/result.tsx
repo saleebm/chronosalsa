@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useGameContext } from "@/components/context/game.tsx"
 
 export function Result() {
@@ -16,15 +16,17 @@ export function Result() {
   const onClickNextRound = () => {
     const currentRound = round + 1
     if (round < steps) {
+      // set the next round
       setRound(currentRound)
       setCurrentResult(null)
     } else {
-      // todo submit
+      // todo - submit results
       console.log(`submitting ${JSON.stringify(results, null, 2)}`)
       setCurrentResult(null)
       setSubmitted(true)
     }
   }
+
   return !!currentResult ? (
     <>
       <h2>Result</h2>
