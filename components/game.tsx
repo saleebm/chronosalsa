@@ -1,10 +1,10 @@
 "use client"
 import React from "react"
 import { FormProvider, useForm } from "react-hook-form"
-import { SongQuestion, SongQuestions } from "@/types"
+import { SongQuestions } from "@/types"
 import { GameForm } from "@/components/game-form.tsx"
 import { GameContextProvider } from "@/components/context/game.tsx"
-import { Result } from "@/components/result.tsx"
+import { CurrentResult } from "@/components/current-result.tsx"
 
 // todo no optimizations?????
 export function Game({
@@ -29,7 +29,7 @@ export function Game({
         {/*end section for rounds*/}
         {/*begin section for current result*/}
         <section id={"current-result"} className={"section"}>
-          <Result />
+          <CurrentResult />
         </section>
         {/*end section for current result*/}
         {/*begin section for results*/}

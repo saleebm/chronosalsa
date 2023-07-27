@@ -37,6 +37,6 @@ export async function GET(request: Request, response: NextResponse) {
     `https://accounts.spotify.com/authorize?${queryParams}`,
     {
       headers,
-    }
+    },
   )
 }

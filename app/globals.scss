@@ -7,7 +7,11 @@
   bottom: 3px !important;
   border: 1px solid transparent !important;
   // gradient background color
-  background: linear-gradient(180deg, rgba(255, 0, 0, 0) 0%, rgba(255, 0, 0, 0.69) 100%) !important;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 0, 0, 0) 0%,
+    rgba(255, 0, 0, 0.69) 100%
+  ) !important;
 
   @media screen and (prefers-reduced-motion: no-preference) {
     transition: transform 0.2s ease-in-out;

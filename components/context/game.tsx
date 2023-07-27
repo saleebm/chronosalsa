@@ -1,19 +1,11 @@
 import React, { createContext, useContext, useState, useEffect } from "react"
 import { randomizeOrder } from "@/lib/utils/randomize-order.ts"
-import { SongAnswer } from "@/types"
+import { CurrentResult } from "@/types"
 
 type Props = {
   children: React.ReactNode
   steps: number
 }
-
-type CurrentResult = Record<
-  string,
-  {
-    guess: string
-    song: SongAnswer
-  }
->
 
 type Context = {
   songOrder: Record<string, number> | null

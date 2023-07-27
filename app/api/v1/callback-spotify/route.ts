@@ -56,7 +56,7 @@ export async function GET(request: Request) {
   const authCookie = getCookieValue(
     authConfig.spotify.tokenName,
     auth,
-    serverCookieOpts
+    serverCookieOpts,
   )
 
   // todo authorize user inserted in db

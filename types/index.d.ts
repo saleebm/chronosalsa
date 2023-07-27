@@ -46,3 +46,11 @@ export type SongAnswer = {
   artistName: string
   albumArtUrl: string
 }
+
+export type CurrentResult = Record<
+  string,
+  {
+    guess: string
+    song: SongAnswer
+  }
+>
