@@ -1,22 +1,16 @@
 "use client"
 
 import { useFormContext } from "react-hook-form"
-import type { SongQuestion } from "@/types"
 import { Colors } from "@/components/colors.tsx"
 import { YearSlider } from "@/components/year-slider.tsx"
 import AudioPlayer from "react-h5-audio-player"
 import "react-h5-audio-player/lib/styles.css"
 import { useGameContext } from "@/components/context/game.tsx"
 import styles from "@/components/round.module.css"
-import { useEffect } from "react"
 
-interface Round {
-  song: SongQuestion | null
-}
-
-export function Round({ song }: Round) {
+export function Round() {
   const { register } = useFormContext()
-  const { round } = useGameContext()
+  const { round, currentSong, currentRoundName } = useGameContext()
 
   return (
     <>
@@ -24,13 +18,13 @@ export function Round({ song }: Round) {
         <legend>Round {round}</legend>
         <Colors
           // default to a black image
-          blurhashData={song?.blurHash || "L00000fQfQfQfQfQfQfQfQfQfQfQ"}
+          blurhashData={currentSong?.blurHash || "L00000fQfQfQfQfQfQfQfQfQfQfQ"}
         />
         <AudioPlayer
           showFilledProgress={true}
           autoPlayAfterSrcChange={false}
           autoPlay={false}
-          src={song?.previewUrl}
+          src={currentSong?.previewUrl}
           showDownloadProgress={false}
           showSkipControls={false}
           showJumpControls={false}
@@ -41,7 +35,7 @@ export function Round({ song }: Round) {
           Year
         </label>
         <input
-          {...register(`round_${round}`, { required: true })}
+          {...register(currentRoundName, { required: true })}
           type='number'
           hidden
           className={"select-none sr-only"}

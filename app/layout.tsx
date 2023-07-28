@@ -28,6 +28,7 @@ export default function RootLayout({
   return (
     <html lang='en' className={`${openSans.variable} ${salsa.variable}`}>
       <body>
+        <div id={"top"} />
         <header className={styles.header}>
           <div className={styles.logo}>
             <p className={styles.logoText}>

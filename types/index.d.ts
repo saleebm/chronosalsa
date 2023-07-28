@@ -41,16 +41,14 @@ export type SongAnswer = {
   releaseYear: string
   name: string
   externalUrl: string
-  albumArt: string
   albumName: string
   artistName: string
   albumArtUrl: string
 }
 
-export type CurrentResult = Record<
-  string,
-  {
-    guess: string
-    song: SongAnswer
-  }
->
+export type CurrentResultAnswer = {
+  guess: string
+  song: SongAnswer
+}
+
+export type CurrentResult = Record<string, CurrentResultAnswer>

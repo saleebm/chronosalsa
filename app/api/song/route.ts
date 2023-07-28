@@ -32,7 +32,6 @@ export async function GET(request: Request, response: NextResponse) {
       releaseYear: track.Album!.releaseYear,
       name: track.name,
       externalUrl: track.externalUrl,
-      albumArt: track.Album!.imageUrl,
       albumName: track.Album!.name,
       artistName: track.Artist!.map((artist) => artist.name).join(", "),
       albumArtUrl: track.Album!.imageUrl,

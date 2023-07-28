@@ -64,6 +64,7 @@ const getProps = async () => {
   }
   return {
     songs: songs.map((song) => ({
+      // try to keep myself from cheating
       releaseYear: obfuscateYear(song.Album!.releaseYear),
       blurHash: song.Album!.blurHash,
       previewUrl: song.previewUrl,

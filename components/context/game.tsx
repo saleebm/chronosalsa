@@ -1,33 +1,32 @@
 import React, { createContext, useContext, useState, useEffect } from "react"
 import { randomizeOrder } from "@/lib/utils/randomize-order.ts"
-import { CurrentResult } from "@/types"
+import { CurrentResult, SongAnswer, SongQuestion, SongQuestions } from "@/types"
 
 type Props = {
   children: React.ReactNode
   steps: number
+  songs: SongQuestions
 }
 
 type Context = {
+  currentSong: SongQuestion | null
+  currentRoundName: string
   songOrder: Record<string, number> | null
-  setSongOrder: React.Dispatch<React.SetStateAction<Context["songOrder"]>>
   round: number
-  setRound: React.Dispatch<React.SetStateAction<Context["round"]>>
   currentResult: CurrentResult | null // only the current round's results if round has been submitted
-  setCurrentResult: React.Dispatch<
-    React.SetStateAction<Context["currentResult"]>
-  >
   results: CurrentResult | null // accumulated results
-  setResults: React.Dispatch<React.SetStateAction<Context["results"]>>
   submitted: boolean
-  setSubmitted: React.Dispatch<React.SetStateAction<Context["submitted"]>>
-  formFieldNames: Array<string>
   steps: number
+  submitRound: (guess: number, song: SongAnswer) => void
+  onClickNextRound: () => void
+  score: number
 }
 
 // Just find-replace "GameContext" with whatever context name you like. (ie. DankContext)
 const GameContext = createContext<Context | null>(null)
 
-export const GameContextProvider = ({ children, steps }: Props) => {
+export const GameContextProvider = ({ children, steps, songs }: Props) => {
+  const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
   // songOrder is the order of songs, it is randomized from the get go
   // it is an object with the key as the round number and the value as the index of the song in the songs array
   const [songOrder, setSongOrder] = React.useState<Context["songOrder"]>(null)
@@ -51,6 +50,8 @@ export const GameContextProvider = ({ children, steps }: Props) => {
     Array.from({ length: steps }, (_, i) => `round_${i + 1}`),
   )
 
+  const [score, setScore] = React.useState(0)
+
   // set song order on mount
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -61,21 +62,76 @@ export const GameContextProvider = ({ children, steps }: Props) => {
     }
   }, [steps])
 
+  const submitRound = (guess: number, song: SongAnswer) => {
+    // set current result and accumulate results
+    const currentRound = formFieldNames[round - 1]
+    const currentResult = {
+      [currentRound]: {
+        guess: `${guess}`,
+        song,
+      },
+    }
+    const accResult = {
+      ...results,
+      ...currentResult,
+    }
+    setCurrentResult(currentResult)
+    setResults(accResult)
+
+    timeoutRef.current = setTimeout(() => {
+      // scroll to #current-result
+      const currentResultEl = document.getElementById("current-result")
+      if (currentResultEl) {
+        currentResultEl.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        })
+      }
+    }, 300)
+  }
+
+  // onClickNextRound Called when the user clicks the Next Round button, after viewing the current result
+  const onClickNextRound = () => {
+    const currentRound = round + 1
+    if (round < steps) {
+      // set the next round
+      setRound(currentRound)
+      setCurrentResult(null)
+    } else {
+      // todo - submit results here
+      console.log(`submitting ${JSON.stringify(results, null, 2)}`)
+      setCurrentResult(null)
+      setSubmitted(true)
+    }
+    timeoutRef.current = setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      })
+    }, 250)
+  }
+
+  useEffect(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current)
+      timeoutRef.current = null
+    }
+  }, [timeoutRef])
+
   return (
     <GameContext.Provider
       value={{
         songOrder,
-        setSongOrder,
         round,
-        setRound,
         currentResult,
-        setCurrentResult,
         results,
-        setResults,
         submitted,
-        setSubmitted,
-        formFieldNames,
         steps,
+        submitRound,
+        onClickNextRound,
+        currentSong: songOrder ? songs[songOrder[round]] : null,
+        currentRoundName: formFieldNames[round - 1],
+        score,
       }}
     >
       {children}

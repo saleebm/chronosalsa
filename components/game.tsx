@@ -5,6 +5,7 @@ import { SongQuestions } from "@/types"
 import { GameForm } from "@/components/game-form.tsx"
 import { GameContextProvider } from "@/components/context/game.tsx"
 import { CurrentResult } from "@/components/current-result.tsx"
+import { GameScore } from "@/components/game-score.tsx"
 
 // todo no optimizations?????
 export function Game({
@@ -20,11 +21,14 @@ export function Game({
 
   return (
     <FormProvider {...methods}>
-      <GameContextProvider steps={steps}>
+      <GameContextProvider steps={steps} songs={songs}>
+        <section id={"score"}>
+          <GameScore />
+        </section>
         {/*begin section for rounds*/}
         <section id={"round"} className={"section"}>
           <h2>Game</h2>
-          <GameForm songs={songs} />
+          <GameForm />
         </section>
         {/*end section for rounds*/}
         {/*begin section for current result*/}
