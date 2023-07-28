@@ -29,7 +29,7 @@ export type SongProps = Prisma.SongGetPayload<{
 
 export type SongQuestion = {
   id: string
-  releaseYear: string
+  releaseYear: string // obfuscated
   blurHash: string | null
   previewUrl: string
 }
@@ -38,7 +38,6 @@ export type SongQuestions = Array<SongQuestion>
 
 export type SongAnswer = {
   id: string
-  releaseYear: string
   name: string
   externalUrl: string
   albumName: string
@@ -47,7 +46,7 @@ export type SongAnswer = {
 }
 
 export type CurrentResultAnswer = {
-  guess: string
+  guess: number
   song: SongAnswer
 }
 

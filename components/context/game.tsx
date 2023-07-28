@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from "react"
 import { randomizeOrder } from "@/lib/utils/randomize-order.ts"
 import { CurrentResult, SongAnswer, SongQuestion, SongQuestions } from "@/types"
+import { reverseObfuscation } from "@/lib/utils/reverse-obfuscation.ts"
+import { getScore } from "@/lib/game/get-score.ts"
 
 type Props = {
   children: React.ReactNode
@@ -67,7 +69,7 @@ export const GameContextProvider = ({ children, steps, songs }: Props) => {
     const currentRound = formFieldNames[round - 1]
     const currentResult = {
       [currentRound]: {
-        guess: `${guess}`,
+        guess: guess,
         song,
       },
     }
@@ -77,6 +79,13 @@ export const GameContextProvider = ({ children, steps, songs }: Props) => {
     }
     setCurrentResult(currentResult)
     setResults(accResult)
+
+    // get score
+    const correctAnswer = reverseObfuscation(
+      songs[songOrder![round]].releaseYear,
+    )
+    const roundScore = getScore(guess, correctAnswer)
+    setScore(score + roundScore)
 
     timeoutRef.current = setTimeout(() => {
       // scroll to #current-result
@@ -98,7 +107,8 @@ export const GameContextProvider = ({ children, steps, songs }: Props) => {
       setRound(currentRound)
       setCurrentResult(null)
     } else {
-      // todo - submit results here
+      // todo - submit results here, save high score to local storage
+      console.log(`score ${score}`)
       console.log(`submitting ${JSON.stringify(results, null, 2)}`)
       setCurrentResult(null)
       setSubmitted(true)

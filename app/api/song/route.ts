@@ -29,7 +29,6 @@ export async function GET(request: Request, response: NextResponse) {
     success: true,
     song: {
       id: track.id,
-      releaseYear: track.Album!.releaseYear,
       name: track.name,
       externalUrl: track.externalUrl,
       albumName: track.Album!.name,

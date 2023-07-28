@@ -4,6 +4,9 @@
 // A perfect score is 1000
 export const getScore = (yearGuessed: number, actualYear: number): number => {
   const guessDistance = Math.abs(yearGuessed - actualYear)
+  console.log(
+    `guessed ${yearGuessed}, actual ${actualYear}, distance ${guessDistance}`,
+  )
   if (guessDistance > 20) {
     return 0
   } else if (guessDistance === 0) {

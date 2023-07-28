@@ -13,7 +13,7 @@ export function GameForm() {
   // onSubmit Called when the user submits the current round, calculates current result and accumulates results
   const onSubmit = handleSubmit(async (data) => {
     try {
-      const guess = data[currentRoundName]
+      const guess = parseInt(data[currentRoundName])
       // fetch answer
       const response = await fetch(`/api/song?id=${currentSong?.id}`)
       const responseJson = await response.json()
