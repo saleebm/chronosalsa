@@ -22,6 +22,7 @@ type Context = {
   submitRound: (guess: number, song: SongAnswer) => void
   onClickNextRound: () => void
   score: number
+  roundScore: number
 }
 
 // Just find-replace "GameContext" with whatever context name you like. (ie. DankContext)
@@ -53,6 +54,7 @@ export const GameContextProvider = ({ children, steps, songs }: Props) => {
   )
 
   const [score, setScore] = React.useState(0)
+  const [roundScore, setRoundScore] = React.useState(0)
 
   // set song order on mount
   useEffect(() => {
@@ -65,12 +67,21 @@ export const GameContextProvider = ({ children, steps, songs }: Props) => {
   }, [steps])
 
   const submitRound = (guess: number, song: SongAnswer) => {
+    // get score
+    const correctAnswer = reverseObfuscation(
+      songs[songOrder![round]].releaseYear,
+    )
+    const currentScore = getScore(guess, correctAnswer)
+    setRoundScore(currentScore)
+    setScore(score + currentScore)
+
     // set current result and accumulate results
     const currentRound = formFieldNames[round - 1]
     const currentResult = {
       [currentRound]: {
         guess: guess,
         song,
+        correctAnswer,
       },
     }
     const accResult = {
@@ -79,13 +90,6 @@ export const GameContextProvider = ({ children, steps, songs }: Props) => {
     }
     setCurrentResult(currentResult)
     setResults(accResult)
-
-    // get score
-    const correctAnswer = reverseObfuscation(
-      songs[songOrder![round]].releaseYear,
-    )
-    const roundScore = getScore(guess, correctAnswer)
-    setScore(score + roundScore)
 
     timeoutRef.current = setTimeout(() => {
       // scroll to #current-result
@@ -142,6 +146,7 @@ export const GameContextProvider = ({ children, steps, songs }: Props) => {
         currentSong: songOrder ? songs[songOrder[round]] : null,
         currentRoundName: formFieldNames[round - 1],
         score,
+        roundScore,
       }}
     >
       {children}

@@ -1,3 +1,19 @@
+.fieldset {
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.legend {
+  padding: 0 10px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 0 auto;
+  color: #2d332d;
+  text-shadow: 0 0 1px #2d332d;
+  mix-blend-mode: difference;
+}
+
 .audioPlayer {
-  margin: 30px auto;
+  margin: 60px auto;
+  max-width: 420px;
 }

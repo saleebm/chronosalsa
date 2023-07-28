@@ -13,8 +13,8 @@ export const createAlbum = async (track: SpotifyApi.TrackObjectFull) => {
   let blurredImageData = null
   if (!!image) {
     blurredImageData = await blurhashFromURL(image.url, {
-      width: 300,
-      height: 300,
+      width: 640,
+      height: 640,
     })
   }
   // release year

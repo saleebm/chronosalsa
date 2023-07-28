@@ -28,9 +28,10 @@
 .logo {
   width: auto;
   height: auto;
-  margin: 0;
   position: relative;
   display: block;
+  padding: 0;
+  margin: 15px auto 10px;
 }
 
 .logoText,
@@ -40,7 +41,7 @@
   font-size: 4.2rem;
   line-height: 0.9;
   font-weight: 400;
-  color: #c70202;
+  color: #ffff00;
   margin: 20px;
   font-variant-caps: all-small-caps;
   padding: 6px;
@@ -48,6 +49,15 @@
   word-wrap: break-word;
   word-break: break-word;
   hyphens: auto;
+  text-shadow: 0 0 1px #ffff00;
+  background-color: rgba(45, 51, 45, 0.2);
+  border-radius: 10px;
+}
+
+.logoText a:hover {
+  color: rgba(255, 0, 250, 0.87) !important;
+  text-shadow: 0 0 1px #ffff00;
+  background-color: rgba(45, 51, 45, 0.2);
 }
 
 .title {
@@ -55,6 +65,7 @@
   font-size: 2.9rem;
   font-weight: bold;
   margin: 15px auto;
+  text-align: center;
 }
 
 .mainImage {

@@ -27,7 +27,6 @@ export function Game({
         </section>
         {/*begin section for rounds*/}
         <section id={"round"} className={"section"}>
-          <h2>Game</h2>
           <GameForm />
         </section>
         {/*end section for rounds*/}

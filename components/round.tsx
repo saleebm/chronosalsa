@@ -14,8 +14,8 @@ export function Round() {
 
   return (
     <>
-      <fieldset>
-        <legend>Round {round}</legend>
+      <fieldset className={styles.fieldset}>
+        <legend className={styles.legend}>Round {round}</legend>
         <Colors
           // default to a black image
           blurhashData={currentSong?.blurHash || "L00000fQfQfQfQfQfQfQfQfQfQfQ"}
