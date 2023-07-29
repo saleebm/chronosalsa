@@ -1,3 +1,4 @@
+"use client"
 import "rc-slider/assets/index.css"
 import Slider from "rc-slider"
 import { useGameContext } from "@/components/context/game.tsx"
@@ -8,9 +9,10 @@ import { useDebounce } from "usehooks-ts"
 import { Properties } from "csstype"
 import useMediaQuery from "beautiful-react-hooks/useMediaQuery"
 
-const years = new Date().getFullYear() + 1 - 1930
-// the year in between 1930 and current year
-const halfway = Math.floor(years / 2) + 1930
+const startYear = 1930
+const years = new Date().getFullYear() + 1 - startYear
+// the year in between startYear and current year
+const halfway = Math.floor(years / 2) + startYear
 
 export const YearSlider = () => {
   const isUnder768 = useMediaQuery("(max-width: 768px)")
@@ -24,16 +26,16 @@ export const YearSlider = () => {
     let yearMarks = {}
     let rule: number = 5
     if (isUnder480) {
-      rule = 18
+      rule = 30
     } else if (isUnder768) {
       rule = 10
     }
     yearMarks = Array.from(Array(years).keys()).reduce(
       (acc, curr) => ({
         ...acc,
-        [curr + 1930]: (
+        [curr + startYear]: (
           <p className={curr % rule === 0 ? styles.yearSliderTick : ""}>
-            {curr % rule === 0 ? curr + 1930 : ""}
+            {curr % rule === 0 ? curr + startYear : ""}
           </p>
         ),
       }),
@@ -58,9 +60,9 @@ export const YearSlider = () => {
   // todo mobile
   return (
     <div className='h-10 flex place-items-center mt-5'>
-      <div className='p-10 w-full'>
+      <div className='p-0 md:p-10 w-full'>
         <Slider
-          min={1930}
+          min={startYear}
           max={new Date().getFullYear()}
           marks={marks}
           keyboard

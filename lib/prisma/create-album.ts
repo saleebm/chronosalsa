@@ -16,6 +16,7 @@ export const createAlbum = async (track: SpotifyApi.TrackObjectFull) => {
       width: 640,
       height: 640,
     })
+    console.log("blurredImageData", blurredImageData)
   }
   // release year
   let releaseDate

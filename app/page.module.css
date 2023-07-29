@@ -54,6 +54,14 @@
   border-radius: 10px;
 }
 
+
+@media screen and (max-width: 780px) {
+  .logoText,
+  .logoText > a {
+    font-size: 3rem;
+  }
+}
+
 .logoText a:hover {
   color: rgba(255, 0, 250, 0.87) !important;
   text-shadow: 0 0 1px #ffff00;

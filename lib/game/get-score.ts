@@ -12,6 +12,10 @@ export const getScore = (yearGuessed: number, actualYear: number): number => {
   } else if (guessDistance === 0) {
     return 1000
   }
-  const score = 1000 * Math.pow(0.5, guessDistance / 6.42)
+  // exponential function with a that returns 1000 when perfect and then decreases as the
+  // distance increases, but slowly increasing the decrease amount as the distance increases
+  // (so that the score doesn't decrease too quickly)
+  const score =
+    1000 * Math.pow(0.9, guessDistance) * Math.pow(1.1, guessDistance / 4.2)
   return Math.round(score)
 }

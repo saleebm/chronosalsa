@@ -1,3 +1,4 @@
+"use client"
 import styles from "@/components/game.module.css"
 import { Round } from "@/components/round.tsx"
 import React from "react"

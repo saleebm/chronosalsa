@@ -2,7 +2,7 @@ import styles from "@/app/page.module.css"
 import { Game } from "@/components/game.tsx"
 import prisma from "@/lib/prisma"
 import { obfuscateYear } from "@/lib/utils/obfuscate.ts"
-import React from "react"
+import { GameContextWrap } from "@/components/context/game-context-wrap.tsx"
 
 export const metadata = {
   title: "Play",
@@ -79,7 +79,9 @@ export default async function Play() {
   return (
     <main className={`${styles.main} container`}>
       <h1 className={styles.title}>Play</h1>
-      <Game songs={data.songs} steps={pageSize} />
+      <GameContextWrap songs={data.songs} steps={pageSize}>
+        <Game />
+      </GameContextWrap>
     </main>
   )
 }

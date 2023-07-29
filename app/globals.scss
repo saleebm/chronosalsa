@@ -21,10 +21,6 @@
     width: 3px !important;
   }
 
-  @media screen and (max-width: 540px) {
-    width: 1px !important;
-  }
-
   &::before {
     content: var(--var-dot-value);
     top: -45px;

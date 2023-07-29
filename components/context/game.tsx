@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from "react"
+"use client"
+import React, { createContext, useContext, useEffect } from "react"
 import { randomizeOrder } from "@/lib/utils/randomize-order.ts"
 import { CurrentResult, SongAnswer, SongQuestion, SongQuestions } from "@/types"
 import { reverseObfuscation } from "@/lib/utils/reverse-obfuscation.ts"

@@ -6,6 +6,7 @@ import { getTracks } from "@/lib/spotify/get-tracks.ts"
 import { bulkInsertSongs, BulkSong } from "@/lib/prisma/bulk-insert-songs.ts"
 import { getPlaylistItems } from "@/lib/spotify/get-playlist-items.ts"
 
+// todo this should run in a worker
 export async function GET(request: Request, response: NextResponse) {
   let error
   const { searchParams } = new URL(request.url)
