@@ -1,6 +1,6 @@
 "use client"
 import React from "react"
-import { useGameContext } from "@/components/context/game.tsx"
+import { useGameContext } from "@/components/context/game"
 import { Result } from "@/components/result.tsx"
 import styles from "@/components/current-result.module.css"
 import { Score } from "@/components/score.tsx"

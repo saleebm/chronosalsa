@@ -2,7 +2,7 @@ import styles from "@/app/page.module.css"
 import { Game } from "@/components/game.tsx"
 import prisma from "@/lib/prisma"
 import { obfuscateYear } from "@/lib/utils/obfuscate.ts"
-import { GameContextWrap } from "@/components/context/game-context-wrap.tsx"
+import { GameContextWrap } from "@/components/context/game/wrap.tsx"
 
 export const metadata = {
   title: "Play",

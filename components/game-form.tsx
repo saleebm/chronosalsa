@@ -2,7 +2,7 @@
 import styles from "@/components/game.module.css"
 import { Round } from "@/components/round.tsx"
 import React from "react"
-import { useGameContext } from "@/components/context/game.tsx"
+import { useGameContext } from "@/components/context/game"
 import { SongAnswer } from "@/types"
 import { useFormContext } from "react-hook-form"
 

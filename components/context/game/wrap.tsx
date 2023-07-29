@@ -2,7 +2,7 @@
 import React from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { SongQuestions } from "@/types"
-import { GameContextProvider } from "@/components/context/game.tsx"
+import { GameContextProvider } from "@/components/context/game/index.tsx"
 
 export function GameContextWrap({
   children,

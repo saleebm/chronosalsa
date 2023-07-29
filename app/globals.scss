@@ -39,3 +39,12 @@
     cursor: default;
   }
 }
+
+.rhap_container {
+  // if supports mix-blend-mode
+  @supports (mix-blend-mode: difference) {
+    background: transparent !important;
+    box-shadow: none !important;
+    mix-blend-mode: difference !important;
+  }
+}

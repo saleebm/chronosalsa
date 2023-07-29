@@ -1,6 +1,6 @@
 "use client"
 import { Colors } from "@/components/colors.tsx"
-import { useGameContext } from "@/components/context/game.tsx"
+import { useGameContext } from "@/components/context/game"
 
 export function BlurhashBackground() {
   const { currentSong } = useGameContext()

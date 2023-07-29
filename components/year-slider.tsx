@@ -1,7 +1,7 @@
 "use client"
 import "rc-slider/assets/index.css"
 import Slider from "rc-slider"
-import { useGameContext } from "@/components/context/game.tsx"
+import { useGameContext } from "@/components/context/game"
 import styles from "@/components/year-slider.module.css"
 import { useEffect, useState } from "react"
 import { useFormContext } from "react-hook-form"

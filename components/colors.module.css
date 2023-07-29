@@ -9,7 +9,7 @@
 }
 
 .canvas {
-  padding: 142px 2%;
+  padding: 142px 2% 40px;
   margin: 0;
   flex: 1;
   width: 100%;
