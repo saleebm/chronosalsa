@@ -18,18 +18,21 @@ export function Game() {
             <GameScore />
           </section>
           {/*begin section for rounds*/}
-          <section id={"round"} className={"section"}>
+          <section id={"round"} className={"section section-sm-padding"}>
             <GameForm />
           </section>
           {/*end section for rounds*/}
           {/*begin section for current result*/}
-          <section id={"current-result"} className={"section"}>
+          <section
+            id={"current-result"}
+            className={"section section-sm-padding"}
+          >
             <CurrentResult />
           </section>
           {/*end section for current result*/}
         </>
       ) : (
-        <section id={"results"} className={"section"}>
+        <section id={"results"} className={"section section-sm-padding"}>
           <FinalResults />
         </section>
       ),

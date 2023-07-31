@@ -11,16 +11,18 @@ export const metadata = {
 export default async function Home() {
   return (
     <main className={`${styles.main} container`}>
-      <h1 className={"title textBg"}>ayeeee</h1>
-      <Image
-        className={styles.mainImage}
-        src={hectorLavoe}
-        alt={"Hector Lavoe flipping off camera"}
-        width={420}
-      />
-      <a className={"btn btn-primary cursor-pointer"} href={`/play`}>
-        Play
-      </a>
+      <div className={"section flex flex-col justify-center items-center"}>
+        <h1 className={"title textBg"}>ayeeee</h1>
+        <Image
+          className={styles.mainImage}
+          src={hectorLavoe}
+          alt={"Hector Lavoe flipping off camera"}
+          height={420}
+        />
+        <a className={"btn btn-primary cursor-pointer"} href={`/play`}>
+          Play
+        </a>
+      </div>
     </main>
   )
 }

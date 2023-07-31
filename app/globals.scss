@@ -41,10 +41,11 @@
 }
 
 .rhap_container {
-  // if supports mix-blend-mode
-  @supports (mix-blend-mode: difference) {
-    background: transparent !important;
-    box-shadow: none !important;
-    mix-blend-mode: difference !important;
+  background-color: rgba(169, 42, 69, 0.42) !important;
+  border-radius: 0.5rem;
+  backdrop-filter: blur(3px) contrast(1.2);
+  
+  & * {
+    color: #fff !important;
   }
 }

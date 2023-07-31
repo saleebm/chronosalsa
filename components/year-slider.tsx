@@ -11,8 +11,7 @@ import useMediaQuery from "beautiful-react-hooks/useMediaQuery"
 
 const startYear = 1930
 const years = new Date().getFullYear() + 1 - startYear
-// the year in between startYear and current year
-const halfway = Math.floor(years / 2) + startYear
+const halfway = 1975
 
 export const YearSlider = () => {
   const isUnder768 = useMediaQuery("(max-width: 768px)")

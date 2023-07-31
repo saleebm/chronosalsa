@@ -12,21 +12,21 @@
   align-items: center;
 }
 
+/*todo rip this apart*/
 .legend {
-  color: #2b4d2b;
+  color: #85ff85;
+  text-shadow: 0 0 10px #000000;
   font-weight: 900;
   font-size: 1.42rem;
   margin: 0 auto;
   display: inline-block;
   position: relative;
-  mix-blend-mode: luminosity;
 }
 
 .audioPlayer {
   margin: 60px auto;
   max-width: 420px;
   width: 100%;
-  min-width: 100%;
 }
 
 .yearPickerWrap {
