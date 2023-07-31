@@ -68,14 +68,6 @@
   background-color: rgba(45, 51, 45, 0.2);
 }
 
-.title {
-  color: #2d332d;
-  font-size: 2.9rem;
-  font-weight: bold;
-  margin: 15px auto;
-  text-align: center;
-}
-
 .mainImage {
   margin: 30px auto;
   position: relative;

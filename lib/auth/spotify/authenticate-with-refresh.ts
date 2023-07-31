@@ -6,21 +6,23 @@ export async function authenticateWithRefresh(refreshToken: string) {
   const host = process.env.NEXT_PUBLIC_HOST
 
   if (!clientID || !clientSecret || !host) {
-    throw new Error('CONFIGURE YOUR env DUDE!')
+    throw new Error("CONFIGURE YOUR env DUDE!")
   }
 
-  const token = Buffer.from(`${clientID}:${clientSecret}`).toString('base64')
+  const token = Buffer.from(`${clientID}:${clientSecret}`).toString("base64")
   // get new token first using refresh
-  const refreshUrl = `https://accounts.spotify.com/api/token?${querystring.stringify({
-    grant_type: 'refresh_token',
-    refresh_token: refreshToken
-  })}`
+  const refreshUrl = `https://accounts.spotify.com/api/token?${querystring.stringify(
+    {
+      grant_type: "refresh_token",
+      refresh_token: refreshToken,
+    },
+  )}`
 
   return await fetch(refreshUrl, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      Authorization: 'Basic ' + token,
-      'content-type': 'application/x-www-form-urlencoded'
-    }
-  }).then(result => result.json())
+      Authorization: "Basic " + token,
+      "content-type": "application/x-www-form-urlencoded",
+    },
+  }).then((result) => result.json())
 }

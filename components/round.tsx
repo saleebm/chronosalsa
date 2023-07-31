@@ -1,7 +1,6 @@
 "use client"
 
 import { useFormContext } from "react-hook-form"
-import { Colors } from "@/components/colors.tsx"
 import { YearSlider } from "@/components/year-slider.tsx"
 import type H5AudioPlayer from "react-h5-audio-player"
 import AudioPlayer from "react-h5-audio-player"
@@ -32,7 +31,7 @@ export function Round() {
   return (
     <>
       <fieldset className={styles.fieldset}>
-        <legend className={styles.legend}>Round {round}</legend>
+        <legend className={`textBg ${styles.legend}`}>Round {round}</legend>
         <AudioPlayer
           showFilledProgress={true}
           autoPlayAfterSrcChange={false}
@@ -44,6 +43,7 @@ export function Round() {
           hasDefaultKeyBindings={false}
           className={styles.audioPlayer}
           ref={ref}
+          customAdditionalControls={[]}
         />
         <label className={"select-none sr-only"} htmlFor={`round_${round}`}>
           Year
@@ -54,7 +54,9 @@ export function Round() {
           hidden
           className={"select-none sr-only"}
         />
-        <YearSlider />
+        <div className={styles.yearPickerWrap}>
+          <YearSlider />
+        </div>
       </fieldset>
     </>
   )

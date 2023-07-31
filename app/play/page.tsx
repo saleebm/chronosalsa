@@ -78,7 +78,7 @@ export default async function Play() {
 
   return (
     <main className={`${styles.main} container`}>
-      <h1 className={styles.title}>Play</h1>
+      <h1 className={"title textBg"}>Play</h1>
       <GameContextWrap songs={data.songs} steps={pageSize}>
         <Game />
       </GameContextWrap>

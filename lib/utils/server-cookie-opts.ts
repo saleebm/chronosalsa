@@ -5,5 +5,5 @@ export const serverCookieOpts = {
   httpOnly: true,
   secure: process.env.NODE_ENV !== "development",
   path: "/",
-  sameSite: "lax"
+  sameSite: "lax",
 } as CookieSerializeOptions

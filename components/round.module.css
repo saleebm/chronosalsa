@@ -2,21 +2,37 @@
   margin: 0 auto;
   padding: 20px;
   position: relative;
-  display: block;
+  display: flex;
   width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  height: auto;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .legend {
-  padding: 0 10px;
-  font-weight: bold;
-  font-size: 1.2rem;
+  color: #2b4d2b;
+  font-weight: 900;
+  font-size: 1.42rem;
   margin: 0 auto;
-  color: #2d332d;
-  text-shadow: 0 0 1px #2d332d;
-  mix-blend-mode: difference;
+  display: inline-block;
+  position: relative;
+  mix-blend-mode: luminosity;
 }
 
 .audioPlayer {
   margin: 60px auto;
   max-width: 420px;
+  width: 100%;
+  min-width: 100%;
+}
+
+.yearPickerWrap {
+  max-width: 420px;
+  width: 100%;
+  min-width: 100%;
+  position: relative;
+  display: block;
 }

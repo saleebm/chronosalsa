@@ -1,4 +1,6 @@
-export function parseCookieValue<T>(val: string | undefined): T | string | null | undefined {
+export function parseCookieValue<T>(
+  val: string | undefined,
+): T | string | null | undefined {
   try {
     if (typeof val === "string" && val.startsWith("j:")) {
       return JSON.parse(val.substring(2))

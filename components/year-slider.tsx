@@ -23,7 +23,8 @@ export const YearSlider = () => {
   const debouncedValue = useDebounce<number>(year, 300)
   const [marks, setMarks] = useState({})
   useEffect(() => {
-    let yearMarks = {}
+    let yearMarks
+    // todo use a fixed array of years
     let rule: number = 5
     if (isUnder480) {
       rule = 30
@@ -42,7 +43,7 @@ export const YearSlider = () => {
       {},
     )
     setMarks(yearMarks)
-  }, [isUnder768, setMarks])
+  }, [isUnder768, isUnder480, setMarks])
 
   // reset the value of the round when the round changes
   useEffect(() => {

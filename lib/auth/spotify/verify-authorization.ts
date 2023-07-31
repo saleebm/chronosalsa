@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma"
 
 // cannot be used in middleware because Prisma requires proxy
 export async function verifyAuthorization(
-  cookieVal: AuthToken & { refresh_token: unknown }
+  cookieVal: AuthToken & { refresh_token: unknown },
 ) {
   const currentUser = await getCurrentUser(cookieVal)
   if (!currentUser || (currentUser && "error" in currentUser)) {
@@ -12,7 +12,7 @@ export async function verifyAuthorization(
     throw new Error(
       currentUser && "error" in currentUser
         ? currentUser.error.message
-        : "Current user not found"
+        : "Current user not found",
     )
   }
   const user = await prisma.user.findUnique({

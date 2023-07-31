@@ -49,6 +49,7 @@ export type CurrentResultAnswer = {
   guess: number
   song: SongAnswer
   correctAnswer: number
+  score: number
 }
 
 export type CurrentResult = Record<string, CurrentResultAnswer>

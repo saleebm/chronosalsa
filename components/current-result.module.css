@@ -5,4 +5,9 @@
     max-width: 100%;
     height: auto;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 50px;
 }

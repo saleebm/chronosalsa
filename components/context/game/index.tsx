@@ -83,6 +83,7 @@ export const GameContextProvider = ({ children, steps, songs }: Props) => {
         guess: guess,
         song,
         correctAnswer,
+        score: currentScore,
       },
     }
     const accResult = {
@@ -93,14 +94,11 @@ export const GameContextProvider = ({ children, steps, songs }: Props) => {
     setResults(accResult)
 
     timeoutRef.current = setTimeout(() => {
-      // scroll to #current-result
-      const currentResultEl = document.getElementById("current-result")
-      if (currentResultEl) {
-        currentResultEl.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        })
-      }
+      // scroll to bottom of page
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth",
+      })
     }, 300)
   }
 

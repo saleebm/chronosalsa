@@ -2,7 +2,7 @@ import { AuthToken } from "@/lib/auth/spotify/get-auth.ts"
 
 export async function makeRequest<T>(
   auth: AuthToken,
-  path: string
+  path: string,
 ): Promise<T> {
   const endpoint = `https://api.spotify.com/v1${path}`
 

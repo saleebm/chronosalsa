@@ -24,7 +24,7 @@ export interface Authenticated {
 export type AuthResult = Unauthenticated | Authenticated
 
 export async function getAuth(
-  cookieStore: RequestCookies | ReadonlyRequestCookies
+  cookieStore: RequestCookies | ReadonlyRequestCookies,
 ): Promise<AuthResult> {
   const authCookie = cookieStore.get(authConfig.spotify.tokenName)
   const cookieVal = parseCookieValue<AuthToken>(authCookie?.value)
@@ -43,7 +43,7 @@ export async function getAuth(
         mode: "same-origin",
         method: "POST",
         body: JSON.stringify(auth),
-      }
+      },
     ).then((result) => result.json())
     if (authorized.success) {
       return {
