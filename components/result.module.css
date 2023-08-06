@@ -40,7 +40,7 @@
   justify-content: center;
   align-items: stretch;
   /*todo modularize*/
-  background-color: rgba(255, 255, 255, 0.69);
+  background-color: rgba(30, 30, 30, 0.42);
   backdrop-filter: blur(10px) contrast(1.1);
   border-radius: 10px;
   padding: 20px;

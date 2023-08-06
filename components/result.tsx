@@ -28,21 +28,22 @@ export function Result({ result }: Props) {
             width={240}
             height={240}
           />
-          <h5>{result.song.albumName}</h5>
         </div>
         <div>
           <h3 className={"text-4xl"}>{result.song.name}</h3>
-          <h4 className={"text-2xl"}>{result.song.artistName}</h4>
+          <p className={"text-lg"}>
+            {result.song.albumName} - {result.song.artistName}
+          </p>
           {/*todo year slider with right year*/}
           <p className={"text-2xl w-full"}>
             Guessed:{" "}
-            <span className={"text-purple-900 font-bold text-3xl"}>
+            <span className={"text-purple-400 font-bold text-3xl"}>
               {result.guess}
             </span>
           </p>
           <p className={"text-2xl w-full"}>
             Released:{" "}
-            <span className={"text-green-700 font-bold text-3xl"}>
+            <span className={"text-green-500 font-bold text-3xl"}>
               {result.correctAnswer}
             </span>
           </p>

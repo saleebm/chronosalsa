@@ -1,7 +1,5 @@
-const theme = require("./config/theme.json")
-
-let font_base = Number(theme.fonts.font_size.base.replace("px", ""))
-let font_scale = Number(theme.fonts.font_size.scale)
+let font_base = 16
+let font_scale = 1.25
 let h6 = font_base / font_base
 let h5 = h6 * font_scale
 let h4 = h5 * font_scale
@@ -18,7 +16,7 @@ module.exports = {
       md: "768px",
       lg: "1024px",
       xl: "1280px",
-      "2xl": "1536px",
+      "=2xl": "1536px",
     },
     container: {
       center: true,
@@ -26,12 +24,12 @@ module.exports = {
     },
     extend: {
       colors: {
-        text: theme.colors.default.text_color.default,
-        heading: theme.colors.default.text_color.heading,
-        primary: theme.colors.default.theme_color.primary,
-        secondary: theme.colors.default.theme_color.secondary,
-        body: theme.colors.default.theme_color.body,
-        border: theme.colors.default.theme_color.border,
+        text: "#27aaee",
+        heading: "#e00909",
+        primary: "#56cc3c",
+        secondary: "#ff00dd",
+        body: "#dcfcfa",
+        border: "#e9e9e9",
       },
       fontSize: {
         base: font_base + "px",

@@ -12,7 +12,7 @@ export default async function Home() {
   return (
     <main className={`${styles.main} container`}>
       <div className={"section flex flex-col justify-center items-center"}>
-        <h1 className={"title textBg"}>ayeeee</h1>
+        <h1 className={"title"}>ayeeee</h1>
         <Image
           className={styles.mainImage}
           src={hectorLavoe}

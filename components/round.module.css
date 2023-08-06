@@ -12,10 +12,10 @@
   align-items: center;
 }
 
-/*todo rip this apart*/
+/*todo rip this apart, make it pretty and modular, use a mixin with other text areas*/
 .legend {
   color: #85ff85;
-  text-shadow: 0 0 10px #000000;
+  text-shadow: 0 0 10px #c9c9c9;
   font-weight: 900;
   font-size: 1.42rem;
   margin: 0 auto;
