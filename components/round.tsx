@@ -45,8 +45,8 @@ export function Round() {
           ref={ref}
           customAdditionalControls={[]}
         />
-        <label className={"select-none sr-only"} htmlFor={`round_${round}`}>
-          Year
+        <label className={"select-none"} htmlFor={`round_${round}`}>
+          Guess the Year
         </label>
         <input
           {...register(currentRoundName, { required: true })}
