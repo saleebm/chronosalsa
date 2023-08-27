@@ -1,7 +1,7 @@
 import React from "react"
 import { CurrentResultAnswer } from "@/types"
 import Image from "next/image"
-import styles from "@/components/result.module.css"
+import styles from "@/components/result.module.scss"
 
 interface Props {
   result: CurrentResultAnswer

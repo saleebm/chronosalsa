@@ -1,5 +1,5 @@
 import "./globals.scss"
-import styles from "./page.module.css"
+import styles from "./page.module.scss"
 import { openSans, salsa } from "@/lib/fonts"
 import Link from "next/link"
 

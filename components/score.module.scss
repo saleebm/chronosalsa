@@ -1,0 +1,33 @@
+@import "../styles/mixins";
+
+.box {
+  position: relative;
+  width: 100%;
+  max-width: 5rem;
+  height: 100%;
+  max-height: 5rem;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  padding: 0.7rem;
+  margin-top: 10px;
+  @include text-bg-alt;
+}
+
+.label {
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.value {
+  @include text-style-alt;
+  font-size: 1.6rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}

@@ -1,4 +1,4 @@
-import styles from "@/app/page.module.css"
+import styles from "@/app/page.module.scss"
 import { Game } from "@/components/game.tsx"
 import prisma from "@/lib/prisma"
 import { obfuscateYear } from "@/lib/utils/obfuscate.ts"
@@ -78,7 +78,7 @@ export default async function Play() {
 
   return (
     <main className={`${styles.main} container`}>
-      <h1 className={"title textBg"}>Play</h1>
+      <h1 className={"title text-bg"}>Play</h1>
       <GameContextWrap songs={data.songs} steps={pageSize}>
         <Game />
       </GameContextWrap>

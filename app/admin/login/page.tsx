@@ -1,4 +1,4 @@
-import styles from "@/app/page.module.css"
+import styles from "@/app/page.module.scss"
 import { LoginForm } from "@/components/login-form.tsx"
 
 export const metadata = {

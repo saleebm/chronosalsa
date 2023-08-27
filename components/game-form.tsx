@@ -46,7 +46,7 @@ export function GameForm() {
       <Round />
       <button
         disabled={!!currentResult}
-        className={`btn btn-primary mt-20 ${!!currentResult ? "disabled" : ""}`}
+        className={`btn btn-primary ${!!currentResult ? "disabled" : ""}`}
       >
         Submit
       </button>

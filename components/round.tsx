@@ -1,14 +1,14 @@
 "use client"
-
-import { useFormContext } from "react-hook-form"
-import { YearSlider } from "@/components/year-slider.tsx"
 import type H5AudioPlayer from "react-h5-audio-player"
 import AudioPlayer from "react-h5-audio-player"
-import "react-h5-audio-player/lib/styles.css"
-import { useGameContext } from "@/components/context/game"
-import styles from "@/components/round.module.css"
+
 import { useRef } from "react"
 import { useHotkeys } from "react-hotkeys-hook"
+import { useFormContext } from "react-hook-form"
+import { YearSlider } from "@/components/year-slider.tsx"
+import { useGameContext } from "@/components/context/game"
+import styles from "@/components/round.module.scss"
+import "react-h5-audio-player/lib/styles.css"
 
 export function Round() {
   const { register } = useFormContext()
@@ -31,7 +31,9 @@ export function Round() {
   return (
     <>
       <fieldset className={styles.fieldset}>
-        <legend className={`textBg ${styles.legend}`}>Round {round}</legend>
+        <legend className={`text-bg ${styles.legend}`}>
+          <span>Round {round}</span>
+        </legend>
         <AudioPlayer
           showFilledProgress={true}
           autoPlayAfterSrcChange={false}
@@ -43,19 +45,27 @@ export function Round() {
           hasDefaultKeyBindings={false}
           className={styles.audioPlayer}
           ref={ref}
-          customAdditionalControls={[]}
-        />
-        <label className={"select-none"} htmlFor={`round_${round}`}>
-          Guess the Year
-        </label>
-        <input
-          {...register(currentRoundName, { required: true })}
-          type='number'
-          hidden
-          className={"select-none sr-only"}
+          customAdditionalControls={[
+            <div tabIndex={0} key={"1"} className='help-tip'>
+              <label
+                htmlFor={`round_${round}`}
+                className={`select-none ${styles.label}`}
+              >
+                Listen to the song and guess the year it was released.
+              </label>
+            </div>,
+          ]}
         />
         <div className={styles.yearPickerWrap}>
           <YearSlider />
+        </div>
+        <div className={styles.inputWrap}>
+          <input
+            {...register(currentRoundName, { required: true })}
+            type='number'
+            hidden
+            className={"select-none sr-only"}
+          />
         </div>
       </fieldset>
     </>

@@ -1,4 +1,4 @@
-import styles from "./page.module.css"
+import styles from "./page.module.scss"
 import Image from "next/image"
 import hectorLavoe from "@/public/images/hector-lavoe-animated.jpg"
 
@@ -12,7 +12,7 @@ export default async function Home() {
   return (
     <main className={`${styles.main} container`}>
       <div className={"section flex flex-col justify-center items-center"}>
-        <h1 className={"title"}>ayeeee</h1>
+        <h1 className={"title text-bg"}>ayeeee</h1>
         <Image
           className={styles.mainImage}
           src={hectorLavoe}

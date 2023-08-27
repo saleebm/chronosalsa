@@ -1,4 +1,4 @@
-import styles from "@/app/page.module.css"
+import styles from "@/app/page.module.scss"
 import { SeedForm } from "@/components/seed-form.tsx"
 
 export const metadata = {

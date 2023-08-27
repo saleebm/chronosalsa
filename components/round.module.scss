@@ -1,3 +1,5 @@
+@import "../styles/mixins";
+
 .fieldset {
   margin: 0 auto;
   padding: 20px;
@@ -14,17 +16,21 @@
 
 /*todo rip this apart, make it pretty and modular, use a mixin with other text areas*/
 .legend {
-  color: #85ff85;
-  text-shadow: 0 0 10px #c9c9c9;
+  @include text-style;
   font-weight: 900;
   font-size: 1.42rem;
   margin: 0 auto;
-  display: inline-block;
+  display: flex;
+  flex-flow: row nowrap;
   position: relative;
 }
 
+.label {
+  @include text-style;
+}
+
 .audioPlayer {
-  margin: 60px auto;
+  margin: 42px auto;
   max-width: 420px;
   width: 100%;
 }
@@ -35,4 +41,14 @@
   min-width: 100%;
   position: relative;
   display: block;
+  margin-top: 20px;
+}
+
+.inputWrap {
+  margin: 24px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }

@@ -1,0 +1,27 @@
+@mixin text-style {
+  color: var(--text-color-primary);
+  // dark text shadow to contrast
+  text-shadow: 0 0 1px var(--text-shadow);
+}
+
+@mixin text-style-alt {
+  color: var(--text-color-secondary);
+  // dark text shadow to contrast
+  text-shadow: 0 0 1px var(--text-shadow);
+}
+
+@mixin title {
+  @apply text-4xl md:text-3xl;
+  @include text-style;
+  font-weight: bold;
+}
+
+@mixin text-bg {
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px) contrast(1.1);
+}
+
+@mixin text-bg-alt {
+  background-color: rgba(255, 0, 0, 0.69);
+  backdrop-filter: blur(10px) contrast(1.1);
+}

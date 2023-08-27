@@ -14,7 +14,7 @@ export function Game() {
       !submitted ? (
         <>
           <BlurhashBackground />
-          <section id={"score"}>
+          <section id={"score"} className={"fixed right-10"}>
             <GameScore />
           </section>
           {/*begin section for rounds*/}

@@ -1,17 +1,18 @@
 "use client"
-import "rc-slider/assets/index.css"
 import Slider from "rc-slider"
-import { useGameContext } from "@/components/context/game"
-import styles from "@/components/year-slider.module.css"
 import { useEffect, useState } from "react"
 import { useFormContext } from "react-hook-form"
 import { useDebounce } from "usehooks-ts"
 import { Properties } from "csstype"
 import useMediaQuery from "beautiful-react-hooks/useMediaQuery"
 
+import { useGameContext } from "@/components/context/game"
+import styles from "@/components/year-slider.module.css"
+import "rc-slider/assets/index.css"
+
 const startYear = 1930
 const years = new Date().getFullYear() + 1 - startYear
-const halfway = 1975
+const halfway = 1977
 
 export const YearSlider = () => {
   const isUnder768 = useMediaQuery("(max-width: 768px)")
@@ -75,16 +76,16 @@ export const YearSlider = () => {
                 ({ "--var-dot-value": `'${dotValue}'` } as Properties<string>)
               : {}
           }
-          trackStyle={{ backgroundColor: "#ccc", height: 2 }}
+          trackStyle={{ backgroundColor: "black", height: 2 }}
           handleStyle={{
             borderColor: "#00ef30",
             borderWidth: 3,
-            height: 33,
-            width: 33,
+            height: 30,
+            width: 30,
             marginTop: -25,
-            backgroundColor: "rgba(0,0,0,0.42)",
+            backgroundColor: "rgba(255,255,255,0.3)",
           }}
-          railStyle={{ backgroundColor: "rgba(255, 255, 255, 0)" }}
+          railStyle={{ backgroundColor: "rgba(0,0,0,0)" }}
           onChange={(value) => {
             setYear(value as number)
           }}

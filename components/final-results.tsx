@@ -12,13 +12,13 @@ export function FinalResults() {
   return (
     <div className={styles.wrap}>
       <div className={styles.headingWrap}>
-        <h2 className={"title textBg sr-only"}>Final Results</h2>
+        <h2 className={"title text-bg sr-only"}>Final Results</h2>
         <Score score={score} />
       </div>
       {results &&
         Object.values(results).map((result, index) => (
           <div key={index} className={styles.result}>
-            <h3 className={"title textBg"}>Round {index + 1}</h3>
+            <h3 className={"title text-bg"}>Round {index + 1}</h3>
             <Score score={result.score} />
             <Result result={result} />
           </div>

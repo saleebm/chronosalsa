@@ -1,4 +1,4 @@
-import styles from "@/components/score.module.css"
+import styles from "@/components/score.module.scss"
 
 export function Score({ score }: { score: number }) {
   return (

@@ -2,8 +2,8 @@
 import React from "react"
 import { useGameContext } from "@/components/context/game"
 import { Result } from "@/components/result.tsx"
-import styles from "@/components/current-result.module.css"
 import { Score } from "@/components/score.tsx"
+import styles from "@/components/current-result.module.css"
 
 export function CurrentResult() {
   const {
@@ -17,7 +17,7 @@ export function CurrentResult() {
 
   return !!currentResult ? (
     <div className={styles.wrap}>
-      <h2 className={"title textBg"}>Result</h2>
+      <h2 className={"title text-bg"}>Result</h2>
       <Score score={roundScore} />
       <Result result={currentResult[currentRoundName]} />
       <button className={"btn btn-primary"} onClick={onClickNextRound}>

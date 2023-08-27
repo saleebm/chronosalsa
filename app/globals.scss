@@ -10,7 +10,8 @@
   background: linear-gradient(
     180deg,
     rgba(255, 0, 0, 0) 0%,
-    rgba(95, 239, 40, 0.42) 100%
+    rgba(95, 239, 40, 0.42) 30%,
+    rgba(95, 239, 40, 0.9) 100%
   ) !important;
 
   @media screen and (prefers-reduced-motion: no-preference) {
@@ -29,9 +30,9 @@
     transform: translateX(-50%);
     font-size: 1rem;
     font-weight: 600;
-    color: #fff;
+    color: var(--text-color-primary);
     filter: drop-shadow(0px 1px 1px rgba(255, 255, 255, 0.69)) contrast(1.2);
-    background: rgba(0, 0, 0, 0.42);
+    background: #fff;
     padding: 2.4px 4.2px;
     border-radius: 4.2px;
     z-index: 1;
@@ -41,11 +42,34 @@
 }
 
 .rhap_container {
-  background-color: rgba(255, 255, 255, 0.22) !important;
+  @include text-bg;
+  z-index: 10;
   border-radius: 0.5rem;
-  backdrop-filter: blur(3px) contrast(1.2);
-  
+  line-height: unset !important;
+
   & * {
-    color: #fff !important;
+    color: #399152 !important;
   }
+}
+
+.rhap_controls-section {
+  flex-direction: row-reverse;
+}
+
+.rhap_additional-controls {
+  justify-content: flex-end;
+}
+
+.rhap_volume-controls {
+  justify-content: flex-start !important;
+}
+
+.rhap_volume-bar,
+.rhap_progress-bar {
+  background-color: #484747 !important;
+}
+
+.rhap_progress-indicator,
+.rhap_volume-indicator {
+  background-color: #399152 !important;
 }

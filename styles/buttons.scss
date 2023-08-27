@@ -10,7 +10,8 @@
   }
 
   &:not([disabled]):hover, &:not([disabled]):focus, &:focus-visible::after {
-    @apply text-amber-200 outline-0;
+    @apply text-blue-100 outline-0;
+    filter: drop-shadow(0px 0px 1px #ffffff);
 
     &::after {
       @apply h-[110%] w-[110%];

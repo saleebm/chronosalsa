@@ -1,3 +1,5 @@
+@import "../styles/mixins";
+
 .imageWrap {
   /* todo modularize (shared between blurred image and this */
   width: 100%;
@@ -39,10 +41,8 @@
   flex-flow: row wrap;
   justify-content: center;
   align-items: stretch;
-  /*todo modularize*/
-  background-color: rgba(30, 30, 30, 0.42);
-  backdrop-filter: blur(10px) contrast(1.1);
   border-radius: 10px;
   padding: 20px;
   margin: 0 auto;
+  @include text-bg;
 }
