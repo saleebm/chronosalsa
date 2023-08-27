@@ -13,7 +13,7 @@
     "migrate:prod": "prisma migrate deploy",
     "migrate:reset": "prisma migrate reset",
     "production": "npm run build && npm run start",
-    "start": "next start -p 3003",
+    "start": "next start -p 3069",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {

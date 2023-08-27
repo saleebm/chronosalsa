@@ -23,10 +23,7 @@ export function FinalResults() {
             <Result result={result} />
           </div>
         ))}
-      <button
-        className={"btn btn-outline-primary"}
-        onClick={() => router.push("/")}
-      >
+      <button className={"btn btn-primary"} onClick={() => router.push("/")}>
         Play Again
       </button>
     </div>
