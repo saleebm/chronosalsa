@@ -1,11 +1,15 @@
 import styles from "./page.module.scss"
 import Image from "next/image"
 import hectorLavoe from "@/public/images/hector-lavoe-animated.jpg"
+import { Metadata } from "next"
 
 // todo https://nextjs.org/docs/app/building-your-application/optimizing/metadata
-export const metadata = {
+export const metadata: Metadata = {
   //todo better meta with images, graph
   title: "Cha cha cha | Chronosalsa",
+  openGraph: {
+    images: [hectorLavoe.src],
+  },
 }
 
 export default async function Home() {
