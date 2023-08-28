@@ -3,16 +3,21 @@ import { Game } from "@/components/game.tsx"
 import prisma from "@/lib/prisma"
 import { obfuscateYear } from "@/lib/utils/obfuscate.ts"
 import { GameContextWrap } from "@/components/context/game/wrap.tsx"
+import { cookies } from "next/headers"
 
 export const metadata = {
   title: "Play",
 }
+
+export const dynamic = "force-dynamic"
+export const revalidate = 0
 
 // todo: don't hard code 5, pass in as prop
 const pageSize = 5
 
 // todo get songs without revealing answers
 const getProps = async () => {
+  const _ = cookies() //force dynamic
   let ids: string[] = []
   try {
     // todo: don't use raw query
@@ -75,6 +80,7 @@ const getProps = async () => {
 
 export default async function Play() {
   const data = await getProps()
+  console.log(`data: ${data.songs.length} ${data.songs.map((song) => song.id)}`)
 
   return (
     <main className={`${styles.main} container`}>
