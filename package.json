@@ -29,7 +29,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-h5-audio-player": "^3.8.6",
-    "react-hook-form": "^7.45.4",
+    "react-hook-form": "^7.46.0",
     "react-hotkeys-hook": "^4.4.1",
     "secure-random": "^1.1.2",
     "sharp": "^0.32.5",

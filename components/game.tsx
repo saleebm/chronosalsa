@@ -8,6 +8,7 @@ import { useGameContext } from "@/components/context/game"
 import { useMemo } from "react"
 
 export function Game() {
+  //TODO relocate, make this server component
   const { submitted } = useGameContext()
   return useMemo(
     () =>

@@ -5,7 +5,6 @@
   justify-content: center;
   height: auto;
   width: 100%;
-  padding-top: 30px;
 }
 
 .headingWrap {
@@ -15,12 +14,11 @@
   justify-content: center;
   width: 100%;
   height: auto;
-  position: absolute;
-  top: 200px;
-  left: 0;
+  position: relative;
 }
 
 .result {
+  /*todo modularize with current-result*/
   position: relative;
   width: 100%;
   min-width: 100%;
@@ -31,5 +29,5 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  row-gap: 20px;
+  row-gap: 10px;
 }

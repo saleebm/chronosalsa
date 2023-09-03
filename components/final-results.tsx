@@ -8,7 +8,7 @@ import styles from "@/components/final-results.module.css"
 const PlayItAgain = () => {
   const router = useRouter()
   return (
-    <button className={"btn btn-primary"} onClick={() => router.push("/")}>
+    <button className={"btn btn-primary mt-4"} onClick={() => router.push("/")}>
       Play it Again
     </button>
   )
