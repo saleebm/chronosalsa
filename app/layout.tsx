@@ -39,7 +39,6 @@ export default function RootLayout({
           </div>
         </header>
         {children}
-        <div className={styles.overlay} />
       </body>
     </html>
   )

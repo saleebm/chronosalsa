@@ -2,13 +2,12 @@
 import type H5AudioPlayer from "react-h5-audio-player"
 import AudioPlayer from "react-h5-audio-player"
 
-import { useRef } from "react"
+import { useEffect, useRef } from "react"
 import { useHotkeys } from "react-hotkeys-hook"
 import { useFormContext } from "react-hook-form"
 import { YearSlider } from "@/components/year-slider.tsx"
 import { useGameContext } from "@/components/context/game"
 import styles from "@/components/round.module.scss"
-import "react-h5-audio-player/lib/styles.css"
 
 export function Round() {
   const { register } = useFormContext()
@@ -28,6 +27,13 @@ export function Round() {
     { preventDefault: true },
   )
 
+  useEffect(() => {
+    console.log("resetting audio")
+    ref.current?.audio.current?.pause()
+    // set progress to 0
+    ref.current?.audio.current?.load()
+  }, [round])
+
   return (
     <>
       <fieldset className={styles.fieldset}>
@@ -35,7 +41,7 @@ export function Round() {
           <span>Round {round}</span>
         </legend>
         <AudioPlayer
-          showFilledProgress={true}
+          showFilledProgress
           autoPlayAfterSrcChange={false}
           autoPlay={false}
           src={currentSong?.previewUrl}
@@ -45,6 +51,7 @@ export function Round() {
           hasDefaultKeyBindings={false}
           className={styles.audioPlayer}
           ref={ref}
+          layout={"stacked-reverse"}
           customAdditionalControls={[
             <div tabIndex={0} key={"1"} className='help-tip'>
               <label

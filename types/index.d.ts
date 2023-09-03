@@ -50,6 +50,7 @@ export type CurrentResultAnswer = {
   song: SongAnswer
   correctAnswer: number
   score: number
+  blurHash: string | null
 }
 
 export type CurrentResult = Record<string, CurrentResultAnswer>

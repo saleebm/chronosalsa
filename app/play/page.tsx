@@ -3,7 +3,6 @@ import { Game } from "@/components/game.tsx"
 import prisma from "@/lib/prisma"
 import { obfuscateYear } from "@/lib/utils/obfuscate.ts"
 import { GameContextWrap } from "@/components/context/game/wrap.tsx"
-import { cookies } from "next/headers"
 
 export const metadata = {
   title: "Play",
@@ -12,12 +11,10 @@ export const metadata = {
 export const dynamic = "force-dynamic"
 export const revalidate = 0
 
-// todo: don't hard code 5, pass in as prop
+// todo: don't hard code 5, pass in as prop along with genre
 const pageSize = 5
 
-// todo get songs without revealing answers
 const getProps = async () => {
-  const _ = cookies() //force dynamic
   let ids: string[] = []
   try {
     // todo: don't use raw query
@@ -37,10 +34,10 @@ const getProps = async () => {
     ids = results.map((item) => item.id)
   } catch (e) {
     console.error(`Error:`, e)
-    if (e instanceof Error) {
-      throw new Error(e.message)
+    return {
+      songs: [],
+      error: e instanceof Error ? e.message : "unknown error",
     }
-    throw new Error("Error executing query")
   }
 
   const songs = await prisma.song.findMany({
@@ -80,7 +77,9 @@ const getProps = async () => {
 
 export default async function Play() {
   const data = await getProps()
-  console.log(`data: ${data.songs.length} ${data.songs.map((song) => song.id)}`)
+  if (process.env.NODE_ENV === "development") {
+    console.table(data)
+  }
 
   return (
     <main className={`${styles.main} container`}>

@@ -41,15 +41,19 @@
   }
 }
 
+$rhap_theme-color: #399152 !default; // Color of all buttons and volume/progress indicators
+$rhap_background-color: #fff !default; // Color of the player background
+$rhap_bar-color: #484747 !default; // Color of volume and progress bar
+$rhap_time-color: #250011 !default; // Font color of current time and duration
+$rhap_font-family: inherit !default; // Font family of current time and duratio
+
+@import "react-h5-audio-player/src/styles.scss";
+
 .rhap_container {
   @include text-bg;
   z-index: 10;
   border-radius: 0.5rem;
   line-height: unset !important;
-
-  & * {
-    color: #399152 !important;
-  }
 }
 
 .rhap_controls-section {
@@ -62,14 +66,4 @@
 
 .rhap_volume-controls {
   justify-content: flex-start !important;
-}
-
-.rhap_volume-bar,
-.rhap_progress-bar {
-  background-color: #484747 !important;
-}
-
-.rhap_progress-indicator,
-.rhap_volume-indicator {
-  background-color: #399152 !important;
 }

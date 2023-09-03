@@ -1,7 +1,13 @@
 "use client"
 import React, { createContext, useContext, useEffect } from "react"
 import { randomizeOrder } from "@/lib/utils/randomize-order.ts"
-import { CurrentResult, SongAnswer, SongQuestion, SongQuestions } from "@/types"
+import {
+  CurrentResult,
+  CurrentResultAnswer,
+  SongAnswer,
+  SongQuestion,
+  SongQuestions,
+} from "@/types"
 import { reverseObfuscation } from "@/lib/utils/reverse-obfuscation.ts"
 import { getScore } from "@/lib/game/get-score.ts"
 
@@ -68,10 +74,9 @@ export const GameContextProvider = ({ children, steps, songs }: Props) => {
   }, [steps])
 
   const submitRound = (guess: number, song: SongAnswer) => {
+    const currentSong = songs[songOrder![round]]
     // get score
-    const correctAnswer = reverseObfuscation(
-      songs[songOrder![round]].releaseYear,
-    )
+    const correctAnswer = reverseObfuscation(currentSong.releaseYear)
     const currentScore = getScore(guess, correctAnswer)
     setRoundScore(currentScore)
     setScore(score + currentScore)
@@ -84,8 +89,9 @@ export const GameContextProvider = ({ children, steps, songs }: Props) => {
         song,
         correctAnswer,
         score: currentScore,
-      },
-    }
+        blurHash: currentSong.blurHash,
+      } as CurrentResultAnswer,
+    } as CurrentResult
     const accResult = {
       ...results,
       ...currentResult,

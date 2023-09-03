@@ -12,7 +12,7 @@ export function FinalResults() {
   return (
     <div className={styles.wrap}>
       <div className={styles.headingWrap}>
-        <h2 className={"title text-bg sr-only"}>Final Results</h2>
+        <h2 className={"title text-bg"}>Final Results</h2>
         <Score score={score} />
       </div>
       {results &&

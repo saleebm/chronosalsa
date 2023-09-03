@@ -78,7 +78,7 @@ export const YearSlider = () => {
           }
           trackStyle={{ backgroundColor: "black", height: 2 }}
           handleStyle={{
-            borderColor: "#00ef30",
+            borderColor: "#000093",
             borderWidth: 3,
             height: 30,
             width: 30,
