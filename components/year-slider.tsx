@@ -47,14 +47,12 @@ export const YearSlider = () => {
 
   // reset the value of the round when the round changes
   useEffect(() => {
-    console.log("resetting round")
     setValue(`round_${round}`, "")
     setYear(halfway)
   }, [round, setValue, setYear])
 
   // set the value of the round when the debounced value changes
   useEffect(() => {
-    console.log("setting round")
     setValue(`round_${round}`, debouncedValue)
   }, [debouncedValue, round, setValue])
 
@@ -76,13 +74,13 @@ export const YearSlider = () => {
                 ({ "--var-dot-value": `'${dotValue}'` } as Properties<string>)
               : {}
           }
-          trackStyle={{ backgroundColor: "black", height: 2 }}
+          trackStyle={{ backgroundColor: "black", height: 1 }}
           handleStyle={{
             borderColor: "#000093",
-            borderWidth: 3,
-            height: 30,
-            width: 30,
-            marginTop: -25,
+            borderWidth: 4,
+            height: 42,
+            width: 42,
+            marginTop: -33,
             backgroundColor: "rgba(255,255,255,0.3)",
           }}
           railStyle={{ backgroundColor: "rgba(0,0,0,0)" }}

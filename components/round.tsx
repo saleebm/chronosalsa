@@ -28,10 +28,11 @@ export function Round() {
   )
 
   useEffect(() => {
-    console.log("resetting audio")
-    ref.current?.audio.current?.pause()
-    // set progress to 0
-    ref.current?.audio.current?.load()
+    if (ref.current?.audio.current?.played) {
+      ref.current.audio.current.pause()
+      // set progress to 0
+      ref.current.audio.current.currentTime = 0
+    }
   }, [round])
 
   return (

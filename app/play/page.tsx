@@ -78,7 +78,7 @@ const getProps = async () => {
 export default async function Play() {
   const data = await getProps()
   if (process.env.NODE_ENV === "development") {
-    console.table(data)
+    console.log(data)
   }
 
   return (
