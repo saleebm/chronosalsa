@@ -5,15 +5,23 @@ import { Result } from "@/components/result.tsx"
 import { Score } from "@/components/score.tsx"
 import styles from "@/components/final-results.module.css"
 
+const PlayItAgain = () => {
+  const router = useRouter()
+  return (
+    <button className={"btn btn-primary"} onClick={() => router.push("/")}>
+      Play it Again
+    </button>
+  )
+}
+
 export function FinalResults() {
   const { results, score } = useGameContext()
-  const router = useRouter()
-  // todo map over all the results and display them with round number
   return (
     <div className={styles.wrap}>
       <div className={styles.headingWrap}>
         <h2 className={"title text-bg"}>Final Results</h2>
         <Score score={score} />
+        <PlayItAgain />
       </div>
       {results &&
         Object.values(results).map((result, index) => (
@@ -23,9 +31,7 @@ export function FinalResults() {
             <Result result={result} />
           </div>
         ))}
-      <button className={"btn btn-primary"} onClick={() => router.push("/")}>
-        Play Again
-      </button>
+      <PlayItAgain />
     </div>
   )
 }

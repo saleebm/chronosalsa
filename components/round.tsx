@@ -36,46 +36,44 @@ export function Round() {
   }, [round])
 
   return (
-    <>
-      <fieldset className={styles.fieldset}>
-        <legend className={`text-bg ${styles.legend}`}>
-          <span>Round {round}</span>
-        </legend>
-        <AudioPlayer
-          showFilledProgress
-          autoPlayAfterSrcChange={false}
-          autoPlay={false}
-          src={currentSong?.previewUrl}
-          showDownloadProgress={false}
-          showSkipControls={false}
-          showJumpControls={false}
-          hasDefaultKeyBindings={false}
-          className={styles.audioPlayer}
-          ref={ref}
-          layout={"stacked-reverse"}
-          customAdditionalControls={[
-            <div tabIndex={0} key={"1"} className='help-tip'>
-              <label
-                htmlFor={`round_${round}`}
-                className={`select-none ${styles.label}`}
-              >
-                Listen to the song and guess the year it was released.
-              </label>
-            </div>,
-          ]}
+    <fieldset className={styles.fieldset}>
+      <legend className={`text-bg ${styles.legend}`}>
+        <span>Round {round}</span>
+      </legend>
+      <AudioPlayer
+        showFilledProgress
+        autoPlayAfterSrcChange={false}
+        autoPlay={false}
+        src={currentSong?.previewUrl}
+        showDownloadProgress={false}
+        showSkipControls={false}
+        showJumpControls={false}
+        hasDefaultKeyBindings={false}
+        className={styles.audioPlayer}
+        ref={ref}
+        layout={"stacked-reverse"}
+        customAdditionalControls={[
+          <div tabIndex={0} key={"1"} className='help-tip'>
+            <label
+              htmlFor={`round_${round}`}
+              className={`select-none ${styles.label}`}
+            >
+              Listen to the song and guess the year it was released.
+            </label>
+          </div>,
+        ]}
+      />
+      <div className={styles.yearPickerWrap}>
+        <YearSlider />
+      </div>
+      <div className={styles.inputWrap}>
+        <input
+          {...register(currentRoundName, { required: true })}
+          type='number'
+          hidden
+          className={"select-none sr-only"}
         />
-        <div className={styles.yearPickerWrap}>
-          <YearSlider />
-        </div>
-        <div className={styles.inputWrap}>
-          <input
-            {...register(currentRoundName, { required: true })}
-            type='number'
-            hidden
-            className={"select-none sr-only"}
-          />
-        </div>
-      </fieldset>
-    </>
+      </div>
+    </fieldset>
   )
 }

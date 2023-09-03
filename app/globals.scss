@@ -1,5 +1,9 @@
 @import "styles/style";
 
+.rc-slider * {
+  @apply select-none;
+}
+
 .rc-slider-dot {
   border-radius: 0 !important;
   height: 27px !important;
