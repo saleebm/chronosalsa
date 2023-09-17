@@ -7,6 +7,7 @@ import { useHotkeys } from "react-hotkeys-hook"
 import { useFormContext } from "react-hook-form"
 import { YearSlider } from "@/components/year-slider.tsx"
 import { useGameContext } from "@/components/context/game"
+import { reverseObfuscation } from "@/lib/utils/reverse-obfuscation.ts"
 import styles from "@/components/round.module.scss"
 
 export function Round() {
@@ -33,6 +34,14 @@ export function Round() {
       ref.current.audio.current.currentTime = 0
     }
   }, [round])
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === "development") {
+      console.log(`round ${round}`, {
+        answer: reverseObfuscation(`${currentSong?.releaseYear}`),
+      })
+    }
+  }, [round, currentSong])
 
   return (
     <fieldset className={styles.fieldset}>
@@ -64,8 +73,6 @@ export function Round() {
       />
       <div className={styles.yearPickerWrap}>
         <YearSlider />
-      </div>
-      <div className={styles.inputWrap}>
         <input
           {...register(currentRoundName, { required: true })}
           type='number'

@@ -70,6 +70,9 @@ export const GameContextProvider = ({ children, steps, songs }: Props) => {
         Array.from({ length: steps }, (_, i) => i),
       ).reduce((acc, cur, i) => ({ ...acc, [i + 1]: cur }), {})
       setSongOrder(order)
+      if (process.env.NODE_ENV === "development") {
+        console.log(`song order: ${JSON.stringify(order, null, 2)}`)
+      }
     }
   }, [steps])
 

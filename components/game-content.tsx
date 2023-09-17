@@ -19,7 +19,7 @@ export function GameContent() {
       </section>
       {/*end section for rounds*/}
       {/*begin section for current result*/}
-      <section id={"current-result"} className={"section mt-16"}>
+      <section id={"current-result"} className={"section current-result"}>
         <CurrentResult />
       </section>
     </>

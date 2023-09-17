@@ -2,7 +2,8 @@
 
 .fieldset {
   margin: 0 auto;
-  padding: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
   position: relative;
   display: flex;
   width: 100%;
@@ -12,6 +13,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-height: 420px;
 }
 
 /*todo rip this apart, make it pretty and modular, use a mixin with other text areas*/
@@ -34,6 +36,10 @@
   margin: 42px auto;
   max-width: 420px;
   width: 100%;
+  
+  @media screen and (max-width: 768px) {
+    margin: 15px auto;
+  }
 }
 
 .yearPickerWrap {
@@ -43,13 +49,5 @@
   position: relative;
   display: block;
   margin-top: 35px;
-}
-
-.inputWrap {
-  margin: 24px auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
+  margin-bottom: 35px;
 }

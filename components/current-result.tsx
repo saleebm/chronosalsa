@@ -12,7 +12,10 @@ export function CurrentResult() {
     <div className={styles.wrap}>
       <h2 className={"title text-bg"}>Result</h2>
       <RoundResult result={currentResult[currentRoundName]} />
-      <button className={"btn btn-primary"} onClick={onClickNextRound}>
+      <button
+        className={"btn btn-primary mt-4 mb-4"}
+        onClick={onClickNextRound}
+      >
         {/* if round equals steps, then it is time to see the final results */}
         {round === steps ? "See final results" : "Next Round"}
       </button>

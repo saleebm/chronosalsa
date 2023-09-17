@@ -42,14 +42,16 @@ export function YearSliderResult({ guess, correct }: YearSliderResultProps) {
       value={[guess, correct]}
       allowCross
       handleStyle={[
-        // first is the guess
+        // first is the guess if guess < correct
         {
-          backgroundColor: guess !== correct ? "#ff0016" : "#0ad739",
+          backgroundColor:
+            guess < correct && guess !== correct ? "#ff0016" : "#0ad739",
           ...commonHandleStyle,
         },
-        // second is the correct answer
+        // second is the guess if guess > correct
         {
-          backgroundColor: "#0ad739",
+          backgroundColor:
+            guess > correct && guess !== correct ? "#ff0016" : "#0ad739",
           ...commonHandleStyle,
         },
       ]}
