@@ -28,8 +28,7 @@ export function Round() {
   )
 
   useEffect(() => {
-    if (ref.current?.audio.current?.played) {
-      ref.current.audio.current.pause()
+    if (ref.current?.audio.current) {
       // set progress to 0
       ref.current.audio.current.currentTime = 0
     }
