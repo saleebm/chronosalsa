@@ -78,8 +78,7 @@ h6,
 }
 
 a {
-  text-decoration: none;
-  color: var(--text-color);
+  @apply text-red-900 underline;
 
   @media screen and (prefers-reduced-motion: no-preference) {
     transition: color 0.3s ease;
@@ -87,11 +86,11 @@ a {
 
   &:not([disabled]):hover,
   &:not([disabled]):focus {
-    color: #6b6b6b;
+    color: #b60606;
   }
   &:focus,
   &:focus-visible {
-    outline: 2px solid #6b6b6b;
+    outline: 2px solid #b60606;
   }
 }
 

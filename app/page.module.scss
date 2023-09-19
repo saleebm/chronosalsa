@@ -19,7 +19,7 @@
   position: relative;
   display: block;
   padding: 0;
-  margin: 15px auto 10px;
+  margin: 15px 0 10px;
 }
 
 .logoText,
@@ -40,8 +40,8 @@
   text-shadow: 0 0 1px #ffff00;
   background-color: rgba(45, 51, 45, 0.2);
   border-radius: 10px;
+  text-decoration: none;
 }
-
 
 @media screen and (max-width: 780px) {
   .logoText,
@@ -54,6 +54,26 @@
   color: rgba(255, 0, 250, 0.87) !important;
   text-shadow: 0 0 1px #ffff00;
   background-color: rgba(45, 51, 45, 0.2);
+}
+
+.navLink {
+  display: block;
+  position: relative;
+  padding: 0 10px;
+  margin: 0 10px;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: #ffff00;
+  text-decoration: none;
+  background-color: rgba(45, 51, 45, 0.2);
+  border-radius: 10px;
+
+  &:hover,
+  &:focus {
+    color: rgb(255, 74, 250) !important;
+    text-shadow: 0 0 1px #ffff00;
+    background-color: rgba(45, 51, 45, 0.2);
+  }
 }
 
 .mainImage {

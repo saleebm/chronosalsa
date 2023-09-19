@@ -1,7 +1,6 @@
 "use client"
 import { useRouter } from "next/navigation"
 import { useGameContext } from "@/components/context/game"
-import { Result } from "@/components/result.tsx"
 import { Score } from "@/components/score.tsx"
 import styles from "@/components/final-results.module.css"
 import { RoundResult } from "@/components/round-result.tsx"

@@ -32,7 +32,7 @@
     "react-hook-form": "^7.46.1",
     "react-hotkeys-hook": "^4.4.1",
     "secure-random": "^1.1.2",
-    "sharp": "^0.32.5",
+    "sharp": "^0.32.6",
     "typescript": "5.2.2",
     "usehooks-ts": "^2.9.1"
   },
@@ -41,7 +41,7 @@
     "@tailwindcss/typography": "^0.5.10",
     "@types/cookie": "^0.5.2",
     "@types/node": "20.6.2",
-    "@types/react": "18.2.21",
+    "@types/react": "18.2.22",
     "@types/react-dom": "18.2.7",
     "@types/secure-random": "^1.1.0",
     "@types/spotify-api": "^0.0.22",

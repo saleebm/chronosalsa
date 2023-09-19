@@ -10,13 +10,10 @@ export const metadata = {
     default: "Chronosalsa",
     template: "%s | Chronosalsa",
   },
-  description: "", //todo
-  icons: {
-    icon: "public/favicon.png", //todo
-  },
+  description: "Discover salsa music by era, artist, and more.",
   openGraph: {
     title: "Chronosalsa",
-    description: "", //todo
+    description: "Discover salsa music by era, artist, and more.",
   },
 }
 
@@ -37,6 +34,9 @@ export default function RootLayout({
               </Link>
             </p>
           </div>
+          <Link className={styles.navLink} href={"/about"} title={"About"}>
+            About
+          </Link>
         </header>
         {children}
       </body>
